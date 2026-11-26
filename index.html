@@ -217,7 +217,8 @@ footer{background:var(--card);margin-top:-1px;text-align:center;font-size:13px;c
 
 
 /* 색 고르기 */
-.swatches{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.swlabel{font-size:13.5px;font-weight:700;color:var(--mute);margin-top:20px}
 .swatches button{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;background:var(--card);color:var(--ink);font-family:var(--body);font-size:14.5px;font-weight:500;padding:7px 14px 7px 7px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--line);transition:box-shadow .2s,transform .25s var(--spring)}
 .swatches button:hover{transform:translateY(-2px)}
 .swatches button i{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--a) 50%,var(--b) 50%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
@@ -323,7 +324,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       <a href="#f-role">1인 1역</a>
       <a href="#f-warn">경고</a>
       <a href="#f-meal">급식</a>
-      <a href="#f-color">화면 색</a>
+      <a href="#f-color">화면 스타일</a>
       <a href="#edit">설정</a>
       <a href="#faq">이럴 땐</a>
       <a href="#start">설치하기</a>
@@ -359,7 +360,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       </div>
       <a class="zoom-more" id="zoomMore" href="#f-tt">자세히 보기 →</a>
       <div class="map-cards" id="mapCards"><a class="mapc rv pop" href="#f-tt" data-k="1"><b class="num">1</b><span class="t">시간표</span><span class="d">지금 교시가 차오르고, 끌어서 그날만 바꿔요</span></a><a class="mapc rv pop" href="#f-timer" data-k="2"><b class="num">2</b><span class="t">큰 시계 · 타이머</span><span class="d">시계를 누르면 화면 가득 타이머</span></a><a class="mapc rv pop" href="#f-notice" data-k="3"><b class="num">3</b><span class="t">안내 문구</span><span class="d">시간대마다 할 일을 띄워줘요</span></a><a class="mapc rv pop" href="#f-check" data-k="4"><b class="num">4</b><span class="t">제출 체크 · 경고</span><span class="d">안 낸 학생만 또렷하게 남아요</span></a><a class="mapc rv pop" href="#f-role" data-k="5"><b class="num">5</b><span class="t">1인 1역 · 급식 · 설정</span><span class="d">위쪽 버튼을 누르면 팝업</span></a></div>
-      <p class="map-more">화면에 안 보이는 기능도 있어요 · <a href="#f-jeon">🔔 전담 5분 전 알림</a> · <a href="#f-color">🎨 화면 색 5가지</a></p>
+      <p class="map-more">화면에 안 보이는 기능도 있어요 · <a href="#f-jeon">🔔 전담 5분 전 알림</a> · <a href="#f-color">🎨 화면 스타일 3가지 · 색 5가지</a></p>
     </div>
   </section>
 
@@ -509,9 +510,15 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
           <figure class="shot"><img id="colorPrev" src="img/chalk/01.jpg" alt="고른 색으로 칠한 칠판 화면" loading="lazy" decoding="async" width="1400" height="787"><figcaption id="colorCap">분필과 칠판</figcaption></figure>
         </div>
         <div class="txt">
-          <span class="tag"><i>🎨</i>화면 색</span>
-          <h3>교실에 어울리는 색으로</h3>
-          <p class="one">다섯 가지 중 골라보세요. 이 페이지의 사진과 내려받는 파일이 그 색으로 바뀌어요.</p>
+          <span class="tag"><i>🎨</i>화면 스타일과 색</span>
+          <h3>교실에 어울리는 모습으로</h3>
+          <p class="one">기본 · 애플 · 칠판, 세 가지 스타일이 있고 기본 스타일은 다섯 가지 색 중 고를 수 있어요. 고르면 이 페이지의 사진과 내려받는 파일이 그 모습으로 바뀌어요.</p>
+          <div class="swlabel">스타일</div>
+          <div class="swatches" role="group" aria-label="화면 스타일 고르기">
+            <button type="button" data-t="apple" style="--a:#eef1f6;--b:#007aff"><i></i>애플</button>
+            <button type="button" data-t="chalkboard" style="--a:#2f4a3e;--b:#f4f1e6"><i></i>칠판</button>
+          </div>
+          <div class="swlabel">기본 스타일의 색</div>
           <div class="swatches" id="swatches" role="group" aria-label="화면 색 고르기">
             <button type="button" data-t="chalk" style="--a:#faf5ea;--b:#2f3d39"><i></i>분필과 칠판</button>
             <button type="button" data-t="green" style="--a:#dcefe6;--b:#1a9b74"><i></i>초록</button>
@@ -519,7 +526,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
             <button type="button" data-t="crayon" style="--a:#ec5f3f;--b:#8b7cf6"><i></i>크레파스</button>
             <button type="button" data-t="mono" style="--a:#161616;--b:#ff5a2e"><i></i>먹색</button>
           </div>
-          <p class="note">설치한 뒤에도 <b>연필 → 색·급식·소리</b>에서 언제든 바꿀 수 있어요.</p>
+          <p class="note">설치한 뒤에도 <b>연필 → 화면·급식·소리</b>에서 언제든 바꿀 수 있어요.</p>
         </div>
       </article>
     </div>
@@ -538,7 +545,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
         <div class="edit-card rv pop" style="background:var(--bg)"><img src="img/chalk/19.jpg" alt="편집 창의 안내 문구 탭" loading="lazy" decoding="async"><h3>안내 문구</h3><p>시간대별 안내와 전담 알림 문구. 엔터로 줄을 나눠요.</p></div>
         <div class="edit-card rv pop" style="background:var(--bg)"><img src="img/chalk/20.jpg" alt="편집 창의 학생·제출 체크 탭" loading="lazy" decoding="async"><h3>학생·제출 체크</h3><p>명단은 한 줄에 한 명. 이름을 눌러 여·남을 정하고, 경고 탭을 켜고 끄고, 체크 탭을 만들어요.</p></div>
         <div class="edit-card rv pop" style="background:var(--bg)"><img src="img/chalk/21.jpg" alt="편집 창의 1인 1역 탭" loading="lazy" decoding="async"><h3>1인 1역</h3><p>역할 · 짧은 이름 · 하는 일 · 담당 학생 · 종류(색).</p></div>
-        <div class="edit-card rv pop" style="background:var(--bg)"><img src="img/chalk/22.jpg" alt="편집 창의 급식·소리 탭" loading="lazy" decoding="async"><h3>색·급식·소리</h3><p>화면 색 다섯 가지 중 고르기, 학교 이름, 교육청, 알림 소리.</p></div>
+        <div class="edit-card rv pop" style="background:var(--bg)"><img src="img/chalk/22.jpg" alt="편집 창의 화면·급식·소리 탭" loading="lazy" decoding="async"><h3>화면·급식·소리</h3><p>화면 스타일(기본·애플·칠판)과 색, 학교 이름, 교육청, 알림 소리.</p></div>
       </div>
     </div>
   </section>
@@ -594,7 +601,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       </div>
       <div class="end rv pop">
         <h2>오늘부터 칠판에 띄워보세요</h2>
-        <p>파일 하나, 설치 없음. <a href="#f-color" class="dlcolor">고른 색</a>으로 받아져요.</p>
+        <p>파일 하나, 설치 없음. 고른 모습(<a href="#f-color" class="dlcolor">분필과 칠판</a>) 그대로 받아져요.</p>
         <a class="btn dl" href="dl/chalk/classboard.html" download="classboard.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
           프로그램 내려받기
@@ -704,8 +711,8 @@ document.addEventListener('click',e=>{
 });
 addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
 // 화면 색: 페이지 색은 그대로, 사진과 내려받는 파일만 그 색으로
-const NAMES={chalk:'분필과 칠판',green:'초록',sky:'하늘과 연필',crayon:'크레파스',mono:'먹색'};
-const sw=[...document.querySelectorAll('#swatches button')];
+const NAMES={chalk:'분필과 칠판',green:'초록',sky:'하늘과 연필',crayon:'크레파스',mono:'먹색',apple:'애플 스타일',chalkboard:'칠판 스타일'};
+const sw=[...document.querySelectorAll('.swatches button')];
 const themed=(src,t)=>src.replace(/img\/[a-z]+\//,'img/'+t+'/').replace(/dl\/[a-z]+\//,'dl/'+t+'/');
 function swapAssets(t){
   document.querySelectorAll('img[src*="img/"]').forEach(i=>{if(i.id==='colorPrev')return;const n=themed(i.getAttribute('src'),t);if(n!==i.getAttribute('src'))i.setAttribute('src',n);});
