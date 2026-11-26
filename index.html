@@ -80,7 +80,7 @@ section.blk{padding:80px 0}
 .step h3{font-size:24px}
 .step p,.step li{color:var(--sub);font-size:15.5px}
 .step ol{margin:0;padding-left:20px}
-.step code,.feat code,.faq code{font-family:ui-monospace,Consolas,monospace;font-size:.88em;background:var(--green-soft);color:var(--ink);padding:1px 6px;border-radius:6px;white-space:nowrap}
+.step code,.way code,.feat code,.faq code{font-family:ui-monospace,Consolas,monospace;font-size:.88em;background:var(--green-soft);color:var(--ink);padding:1px 6px;border-radius:6px;white-space:nowrap}
 .cmd{position:relative;background:var(--cmd);color:var(--cmd-ink);border-radius:14px;padding:14px 14px 14px 16px;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.6;word-break:break-all}
 .cmd button{position:absolute;top:8px;right:8px;border:0;background:var(--cmd-btn);color:#fff;font-family:var(--body);font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;cursor:pointer}
 .cmd button:hover{background:var(--green);color:#fff}
@@ -290,6 +290,23 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   .zoom-more.show{opacity:1;transform:none;pointer-events:auto}
 }
 
+
+.ways{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start}
+.way{background:var(--bg);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.way.main{box-shadow:inset 0 0 0 2.5px var(--ink)}
+.way h3{font-size:clamp(24px,2.4vw,30px)}
+.way-tag{align-self:flex-start;font-size:13.5px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--bg)}
+.way-tag.soft{background:var(--green-soft);color:var(--green-d)}
+.way-steps{margin:0;padding:0;list-style:none;counter-reset:w;display:grid;gap:12px}
+.way-steps li{counter-increment:w;position:relative;padding-left:40px;color:var(--sub);font-size:15.5px;line-height:1.65}
+.way-steps li::before{content:counter(w);position:absolute;left:0;top:-1px;width:28px;height:28px;border-radius:9px;background:var(--ink);color:var(--bg);font-family:var(--display);font-size:16px;display:grid;place-items:center}
+.way:not(.main) .way-steps li::before{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.way-steps b{color:var(--ink)}
+.way-steps .cmd{margin-top:10px}
+.way-ok{font-size:15px;color:var(--ink);background:var(--green-soft);border-radius:12px;padding:11px 14px;line-height:1.6}
+.way-ok.soft{background:var(--card);color:var(--sub)}
+@media (max-width:900px){.ways{grid-template-columns:1fr}.way{padding:22px}}
+
 /* 크게 보기: 사진 자리에서 커지기 */
 .lb{transition:opacity .3s}
 .lb img{transform:none;transition:none;will-change:transform}
@@ -327,7 +344,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       <a href="#f-color">화면 스타일</a>
       <a href="#edit">설정</a>
       <a href="#faq">이럴 땐</a>
-      <a href="#start">설치하기</a>
+      <a href="#start">칠판에 띄우기</a>
     <span class="pill" id="pill"></span></nav>
   </div>
   <span class="prog" id="prog"></span>
@@ -559,7 +576,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       <div class="faq rv">
         <details><summary>급식이 안 나와요</summary><div class="ans"><div><ul><li>연필 → 급식·소리에서 학교 이름과 교육청이 맞는지 확인해주세요. 같은 이름의 학교가 여럿이면 「학교 주소에 들어가는 말」에 시·군 이름을 넣어요.</li><li>교실 컴퓨터가 인터넷에 연결돼 있어야 해요. 학교 보안 프로그램이 막는 경우도 있어요.</li><li>방학·주말처럼 급식이 없는 날은 「급식 정보가 없어요」라고 나와요.</li></ul></div></div></details>
         <details><summary>알림 소리가 안 나요</summary><div class="ans"><div><ul><li>브라우저는 화면을 한 번이라도 누른 뒤에만 소리를 낼 수 있어요. 아침에 켜고 아무 데나 한 번 눌러주세요.</li><li>위쪽 스피커 버튼이 꺼져 있지 않은지 확인해주세요.</li></ul></div></div></details>
-        <details><summary>고쳐둔 내용이 사라졌어요</summary><div class="ans"><div><ul><li>설정은 그 컴퓨터, 그 크롬에 저장돼요. 바로가기로 열 때와 그냥 크롬으로 열 때도 서로 따로예요. 항상 같은 바로가기로 열어주세요.</li><li>크롬의 「인터넷 사용 기록 삭제」에서 쿠키·사이트 데이터를 지우면 함께 지워져요.</li></ul></div></div></details>
+        <details><summary>고쳐둔 내용이 사라졌어요</summary><div class="ans"><div><ul><li>설정은 그 컴퓨터의 크롬에 저장돼요. 다른 컴퓨터나 다른 브라우저(엣지, 웨일 등)로 열면 처음 상태로 보여요. 항상 같은 컴퓨터의 크롬으로 열어주세요.</li><li>크롬의 「인터넷 사용 기록 삭제」에서 쿠키·사이트 데이터를 지우면 함께 지워져요.</li></ul></div></div></details>
         <details><summary>새 버전으로 바꾸고 싶어요</summary><div class="ans"><div>칠판 화면을 끄고(<code>Alt + F4</code>) <code>C:\classboard</code>의 파일을 같은 이름으로 덮어쓰면 돼요. 고쳐둔 시간표와 체크 기록은 그대로 남아요.</div></div></details>
         <details><summary>화면이 너무 크거나 작아요</summary><div class="ans"><div>전체화면(<code>F11</code>)에서 쓰는 걸 기준으로 맞춰져 있어요. 크롬 확대/축소(<code>Ctrl + -</code>, <code>Ctrl + +</code>)로 조절할 수 있어요.</div></div></details>
         <details><summary>끄고 싶어요</summary><div class="ans"><div>화면을 한 번 누르고 <code>Alt + F4</code>, 전체화면만 풀려면 <code>F11</code>이에요.</div></div></details>
@@ -571,32 +588,34 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   <section class="blk" id="start" style="background:var(--card)">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="eyebrow">설치하기</span>
-        <h2>세 단계면 칠판에 떠요</h2>
-        <p>처음 한 번만 해두면 다음부터는 컴퓨터를 켤 때 저절로 열려요.</p>
+        <span class="eyebrow">칠판에 띄우기</span>
+        <h2>설치 없이, 파일만 열면 돼요</h2>
+        <p>지금 바로 써보고, 마음에 들면 컴퓨터를 켤 때 저절로 뜨게 해두세요.</p>
       </div>
-      <div class="steps">
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">1</span>
-          <h3>파일 넣기</h3>
-          <p><b>프로그램 내려받기</b> 버튼으로 받은 <code>classboard.html</code>을 <code>C:\classboard</code> 폴더를 만들어 넣어요. 파일 이름은 그대로 두세요.</p>
-          <p class="tip">이름이 <code>classboard (1).html</code>로 받아졌다면 <code>classboard.html</code>로 고쳐주세요.</p>
-        </div>
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">2</span>
-          <h3>바로가기 만들기</h3>
-          <p>바탕화면 오른쪽 클릭 → 새로 만들기 → <b>바로 가기</b> → 아래 글을 붙여넣고 이름은 「우리 반 칠판」.</p>
-          <div class="cmd"><button type="button" id="copyBtn">복사</button><span id="cmdText">"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="C:\classboard\profile" --app="file:///C:/classboard/classboard.html" --window-position=1920,0 --start-fullscreen</span></div>
-          <p class="tip">두 번째 모니터가 왼쪽이면 <code>1920,0</code>을 <code>-1920,0</code>으로. 안 열리면 <code>Program Files</code>를 <code>Program Files (x86)</code>으로 바꿔보세요.</p>
-        </div>
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">3</span>
-          <h3>켜면 자동으로</h3>
-          <ol>
-            <li><code>윈도우키 + R</code> → <code>shell:startup</code> → 확인</li>
-            <li>열린 폴더에 바탕화면의 「우리 반 칠판」 바로가기를 복사해 넣기</li>
+      <div class="ways">
+        <div class="way main rv">
+          <span class="way-tag">지금 바로 · 1분</span>
+          <h3>더블클릭해서 열기</h3>
+          <ol class="way-steps">
+            <li><b>프로그램 내려받기</b>로 받은 <code>classboard.html</code>을 더블클릭해요. 크롬으로 열려요.</li>
+            <li>창을 칠판(TV) 화면으로 끌어다 놓아요.</li>
+            <li><code>F11</code>을 누르면 전체화면이 돼요. 끝!</li>
           </ol>
-          <p>그다음 오른쪽 위 <b>연필</b>을 눌러 시간표·명단·학교를 우리 반에 맞게 바꿔요. <a href="#edit">설정 보기 →</a></p>
+          <p class="tip">크롬이 아닌 다른 브라우저로 열리면 파일 오른쪽 클릭 → 연결 프로그램 → <b>Google Chrome</b>.</p>
+          <p class="way-ok">✓ 이것만으로도 모든 기능을 쓸 수 있어요. 오른쪽 위 <b>연필</b>을 눌러 시간표·명단·학교를 우리 반에 맞게 바꿔요. <a href="#edit">설정 보기 →</a></p>
+        </div>
+        <div class="way rv">
+          <span class="way-tag soft">더 편하게 · 하고 싶을 때만</span>
+          <h3>컴퓨터를 켜면 저절로 뜨게</h3>
+          <ol class="way-steps">
+            <li><code>C:\classboard</code> 폴더를 만들고 <code>classboard.html</code>을 넣어요. 이름은 그대로 두세요.</li>
+            <li>바탕화면 오른쪽 클릭 → 새로 만들기 → <b>바로 가기</b> → 아래 글을 붙여넣고 이름은 「우리 반 칠판」.
+              <div class="cmd"><button type="button" id="copyBtn">복사</button><span id="cmdText">"C:\Program Files\Google\Chrome\Application\chrome.exe" --app="file:///C:/classboard/classboard.html" --window-position=1920,0 --start-fullscreen</span></div>
+            </li>
+            <li><code>윈도우키 + R</code> → <code>shell:startup</code> → 확인 → 열린 폴더에 바로가기를 복사해 넣어요.</li>
+          </ol>
+          <p class="tip">두 번째 모니터가 왼쪽이면 <code>1920,0</code>을 <code>-1920,0</code>으로. 안 열리면 <code>Program Files</code>를 <code>Program Files (x86)</code>으로. 크롬이 이미 켜져 있어 전체화면이 안 되면 <code>F11</code>.</p>
+          <p class="way-ok soft">더블클릭으로 쓰던 시간표·명단·체크 기록이 그대로 이어져요.</p>
         </div>
       </div>
       <div class="end rv pop">
@@ -606,6 +625,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
           프로그램 내려받기
         </a>
+      </div>
     </div>
   </section>
 
@@ -661,7 +681,7 @@ document.querySelectorAll('.feat').forEach(f=>{
   f.querySelectorAll('.shot').forEach((s,i)=>s.style.setProperty('--d',(i*.12)+'s'));
 });
 // 같은 줄에 있는 것은 차례로
-[['.mapc',.07],['.step',.12],['.edit-card',.08]].forEach(([q,g])=>document.querySelectorAll(q).forEach((el,i)=>el.style.setProperty('--d',((q==='.mapc'?i:i%3)*g)+'s')));
+[['.mapc',.07],['.way',.12],['.edit-card',.08]].forEach(([q,g])=>document.querySelectorAll(q).forEach((el,i)=>el.style.setProperty('--d',((q==='.mapc'?i:i%3)*g)+'s')));
 
 const rvObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.classList.add('in');rvObs.unobserve(el);const d=parseFloat(getComputedStyle(el).getPropertyValue('--d'))||0;setTimeout(()=>el.classList.add('done'),900+d*1000);}});},{rootMargin:'0px 0px -12% 0px',threshold:.05});
 document.querySelectorAll('.rv,.feat').forEach(el=>rvObs.observe(el));
