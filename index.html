@@ -132,7 +132,7 @@ figure{margin:0}
 .end .btn:hover{box-shadow:0 6px 0 var(--end-sh)}.end .btn:active{box-shadow:0 1px 0 var(--end-sh)}
 .end p{color:var(--on-dark-sub);margin-top:10px}
 .end .btn{margin-top:26px;background:var(--on-dark);color:var(--dark);box-shadow:0 4px 0 var(--end-sh)}
-footer{text-align:center;font-size:13px;color:var(--mute);padding:0 0 40px}
+footer{background:var(--card);margin-top:-1px;text-align:center;font-size:13px;color:var(--mute);padding:0 0 40px}
 
 /* 크게 보기 */
 .lb{position:fixed;inset:0;z-index:50;background:rgba(var(--sh),.8);display:grid;place-items:center;padding:24px;cursor:zoom-out;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -254,7 +254,6 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   <div class="wrap">
     <a class="logo" href="#top"><i>칠</i><span>우리 반 칠판</span></a>
     <nav class="chips" id="chips" aria-label="바로가기">
-      <a href="#start">시작하기</a>
       <a href="#f-tt">시간표</a>
       <a href="#f-notice">안내 문구</a>
       <a href="#f-timer">타이머</a>
@@ -265,6 +264,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       <a href="#f-meal">급식</a>
       <a href="#edit">설정</a>
       <a href="#faq">이럴 땐</a>
+      <a href="#start">설치하기</a>
     <span class="pill" id="pill"></span></nav>
     <div class="themes" id="themes" role="group" aria-label="색 고르기">
       <span class="tlabel">색</span>
@@ -291,7 +291,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
               프로그램 내려받기
             </a>
-            <a class="btn ghost" href="#start">사용법 보기</a>
+            <a class="btn ghost" href="#features">기능 둘러보기</a>
           </div>
           <p class="fine">설치 없음 · 인터넷 없이 동작(급식만 인터넷 필요) · 크롬 권장<br>위쪽 색 점으로 고른 색 그대로 내려받아져요. 프로그램 안에서도 언제든 바꿀 수 있어요.</p>
         </div>
@@ -302,40 +302,6 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
         <div class="point rv pop"><b>⏱️ 타이머</b><span>시계를 누르면 화면 가득 큰 타이머</span></div>
         <div class="point rv pop"><b>✅ 제출 체크</b><span>이름만 누르면 낸 학생은 흐려지고 안 낸 학생만 남아요</span></div>
         <div class="point rv pop"><b>🔔 전담 알림</b><span>전담 5분 전에 책 챙기고 줄 서라고 알려줘요</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="blk" id="start" style="background:var(--card)">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">시작하기</span>
-        <h2>세 단계면 칠판에 떠요</h2>
-        <p>처음 한 번만 해두면 다음부터는 컴퓨터를 켤 때 저절로 열려요.</p>
-      </div>
-      <div class="steps">
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">1</span>
-          <h3>파일 넣기</h3>
-          <p>위의 <b>프로그램 내려받기</b>로 받은 <code>classboard.html</code>을 <code>C:\classboard</code> 폴더를 만들어 넣어요. 파일 이름은 그대로 두세요.</p>
-          <p class="tip">이름이 <code>classboard (1).html</code>로 받아졌다면 <code>classboard.html</code>로 고쳐주세요.</p>
-        </div>
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">2</span>
-          <h3>바로가기 만들기</h3>
-          <p>바탕화면 오른쪽 클릭 → 새로 만들기 → <b>바로 가기</b> → 아래 글을 붙여넣고 이름은 「우리 반 칠판」.</p>
-          <div class="cmd"><button type="button" id="copyBtn">복사</button><span id="cmdText">"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="C:\classboard\profile" --app="file:///C:/classboard/classboard.html" --window-position=1920,0 --start-fullscreen</span></div>
-          <p class="tip">두 번째 모니터가 왼쪽이면 <code>1920,0</code>을 <code>-1920,0</code>으로. 안 열리면 <code>Program Files</code>를 <code>Program Files (x86)</code>으로 바꿔보세요.</p>
-        </div>
-        <div class="step rv" style="background:var(--bg)">
-          <span class="n">3</span>
-          <h3>켜면 자동으로</h3>
-          <ol>
-            <li><code>윈도우키 + R</code> → <code>shell:startup</code> → 확인</li>
-            <li>열린 폴더에 바탕화면의 「우리 반 칠판」 바로가기를 복사해 넣기</li>
-          </ol>
-          <p>그다음 오른쪽 위 <b>연필</b>을 눌러 시간표·명단·학교를 우리 반에 맞게 바꿔요. <a href="#edit">설정 보기 →</a></p>
-        </div>
       </div>
     </div>
   </section>
@@ -515,6 +481,40 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
         <details><summary>끄고 싶어요</summary><div class="ans"><div>화면을 한 번 누르고 <code>Alt + F4</code>, 전체화면만 풀려면 <code>F11</code>이에요.</div></div></details>
       </div>
 
+</div>
+    </div>
+  </section>
+  <section class="blk" id="start" style="background:var(--card)">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">설치하기</span>
+        <h2>세 단계면 칠판에 떠요</h2>
+        <p>처음 한 번만 해두면 다음부터는 컴퓨터를 켤 때 저절로 열려요.</p>
+      </div>
+      <div class="steps">
+        <div class="step rv" style="background:var(--bg)">
+          <span class="n">1</span>
+          <h3>파일 넣기</h3>
+          <p><b>프로그램 내려받기</b> 버튼으로 받은 <code>classboard.html</code>을 <code>C:\classboard</code> 폴더를 만들어 넣어요. 파일 이름은 그대로 두세요.</p>
+          <p class="tip">이름이 <code>classboard (1).html</code>로 받아졌다면 <code>classboard.html</code>로 고쳐주세요.</p>
+        </div>
+        <div class="step rv" style="background:var(--bg)">
+          <span class="n">2</span>
+          <h3>바로가기 만들기</h3>
+          <p>바탕화면 오른쪽 클릭 → 새로 만들기 → <b>바로 가기</b> → 아래 글을 붙여넣고 이름은 「우리 반 칠판」.</p>
+          <div class="cmd"><button type="button" id="copyBtn">복사</button><span id="cmdText">"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="C:\classboard\profile" --app="file:///C:/classboard/classboard.html" --window-position=1920,0 --start-fullscreen</span></div>
+          <p class="tip">두 번째 모니터가 왼쪽이면 <code>1920,0</code>을 <code>-1920,0</code>으로. 안 열리면 <code>Program Files</code>를 <code>Program Files (x86)</code>으로 바꿔보세요.</p>
+        </div>
+        <div class="step rv" style="background:var(--bg)">
+          <span class="n">3</span>
+          <h3>켜면 자동으로</h3>
+          <ol>
+            <li><code>윈도우키 + R</code> → <code>shell:startup</code> → 확인</li>
+            <li>열린 폴더에 바탕화면의 「우리 반 칠판」 바로가기를 복사해 넣기</li>
+          </ol>
+          <p>그다음 오른쪽 위 <b>연필</b>을 눌러 시간표·명단·학교를 우리 반에 맞게 바꿔요. <a href="#edit">설정 보기 →</a></p>
+        </div>
+      </div>
       <div class="end rv pop">
         <h2>오늘부터 칠판에 띄워보세요</h2>
         <p>파일 하나, 설치 없음. 지금 보고 있는 색으로 받아져요.</p>
@@ -522,9 +522,9 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
           프로그램 내려받기
         </a>
-      </div>
     </div>
   </section>
+
 </main>
 
 <footer>우리 반 칠판 · 사진 속 학생 이름은 모두 예시예요</footer>
