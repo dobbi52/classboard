@@ -215,17 +215,18 @@ footer{background:var(--card);margin-top:-1px;text-align:center;font-size:13px;c
 
 
 /* 색 고르기 */
-.themes{display:flex;gap:6px;align-items:center;flex:none;padding-left:12px;margin-left:4px;border-left:1px solid var(--line)}
-.themes button{width:24px;height:24px;border-radius:50%;border:0;padding:0;cursor:pointer;background:linear-gradient(135deg,var(--a) 50%,var(--b) 50%);box-shadow:0 0 0 1px rgba(0,0,0,.12) inset;transition:transform .3s var(--spring),box-shadow .2s}
-.themes button:hover{transform:scale(1.15)}
-.themes button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink);transform:scale(1.05)}
-.themes .tlabel{font-size:12.5px;color:var(--mute);margin-right:2px;white-space:nowrap}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.swatches button{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;background:var(--card);color:var(--ink);font-family:var(--body);font-size:14.5px;font-weight:500;padding:7px 14px 7px 7px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--line);transition:box-shadow .2s,transform .25s var(--spring)}
+.swatches button:hover{transform:translateY(-2px)}
+.swatches button i{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--a) 50%,var(--b) 50%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.swatches button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--ink)}
+#colorPrev{transition:opacity .25s}
+#colorPrev.fade{opacity:.2}
 body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-property:background-color,color,border-color,opacity,transform,box-shadow}
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
 ::view-transition-new(root){animation:themeIn .7s cubic-bezier(.2,.8,.2,1)}
 @keyframes themeIn{from{clip-path:circle(0 at var(--tx,50%) var(--ty,0))}to{clip-path:circle(var(--tr,150vmax) at var(--tx,50%) var(--ty,0))}}
 [data-theme="chalk"] .hero h1 b,:root:not([data-theme]) .hero h1 b{background:linear-gradient(transparent 68%,rgba(242,193,78,.45) 68%,rgba(242,193,78,.45) 92%,transparent 92%)}
-@media (max-width:900px){.themes .tlabel{display:none}.themes{gap:5px;padding-left:8px}.themes button{width:20px;height:20px}}
 
 /* 크게 보기: 사진 자리에서 커지기 */
 .lb{transition:opacity .3s}
@@ -246,7 +247,6 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   .points{grid-template-columns:1fr}
 }
 </style>
-<script>try{var t=localStorage.getItem('cbm-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
 
@@ -262,18 +262,11 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       <a href="#f-role">1인 1역</a>
       <a href="#f-warn">경고</a>
       <a href="#f-meal">급식</a>
+      <a href="#f-color">화면 색</a>
       <a href="#edit">설정</a>
       <a href="#faq">이럴 땐</a>
       <a href="#start">설치하기</a>
     <span class="pill" id="pill"></span></nav>
-    <div class="themes" id="themes" role="group" aria-label="색 고르기">
-      <span class="tlabel">색</span>
-      <button type="button" data-t="chalk" title="분필과 칠판" aria-label="분필과 칠판" style="--a:#faf5ea;--b:#2f3d39"></button>
-      <button type="button" data-t="green" title="초록" aria-label="초록" style="--a:#dcefe6;--b:#1a9b74"></button>
-      <button type="button" data-t="sky" title="하늘과 연필" aria-label="하늘과 연필" style="--a:#3462e8;--b:#ffd34d"></button>
-      <button type="button" data-t="crayon" title="크레파스" aria-label="크레파스" style="--a:#ec5f3f;--b:#8b7cf6"></button>
-      <button type="button" data-t="mono" title="먹색" aria-label="먹색" style="--a:#161616;--b:#ff5a2e"></button>
-    </div>
   </div>
   <span class="prog" id="prog"></span>
 </header>
@@ -293,7 +286,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
             </a>
             <a class="btn ghost" href="#features">기능 둘러보기</a>
           </div>
-          <p class="fine">설치 없음 · 인터넷 없이 동작(급식만 인터넷 필요) · 크롬 권장<br>위쪽 색 점으로 고른 색 그대로 내려받아져요. 프로그램 안에서도 언제든 바꿀 수 있어요.</p>
+          <p class="fine">설치 없음 · 인터넷 없이 동작(급식만 인터넷 필요) · 크롬 권장<br>화면 색은 다섯 가지 중 고를 수 있어요. <a href="#f-color">색 보기 →</a></p>
         </div>
         <div class="tv"><img src="img/chalk/01.jpg" alt="수업 중인 우리 반 칠판 화면. 왼쪽에 오늘의 시간표, 오른쪽에 큰 시계와 안내, 아래에 제출 체크" width="1400" height="787"></div>
       </div>
@@ -445,6 +438,25 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
           </ul>
         </div>
       </article>
+
+      <article class="feat" id="f-color">
+        <div class="media">
+          <figure class="shot"><img id="colorPrev" src="img/chalk/01.jpg" alt="고른 색으로 칠한 칠판 화면" loading="lazy" decoding="async" width="1400" height="787"><figcaption id="colorCap">분필과 칠판</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>🎨</i>화면 색</span>
+          <h3>교실에 어울리는 색으로</h3>
+          <p class="one">다섯 가지 중 골라보세요. 이 페이지의 사진과 내려받는 파일이 그 색으로 바뀌어요.</p>
+          <div class="swatches" id="swatches" role="group" aria-label="화면 색 고르기">
+            <button type="button" data-t="chalk" style="--a:#faf5ea;--b:#2f3d39"><i></i>분필과 칠판</button>
+            <button type="button" data-t="green" style="--a:#dcefe6;--b:#1a9b74"><i></i>초록</button>
+            <button type="button" data-t="sky" style="--a:#3462e8;--b:#ffd34d"><i></i>하늘과 연필</button>
+            <button type="button" data-t="crayon" style="--a:#ec5f3f;--b:#8b7cf6"><i></i>크레파스</button>
+            <button type="button" data-t="mono" style="--a:#161616;--b:#ff5a2e"><i></i>먹색</button>
+          </div>
+          <p class="note">설치한 뒤에도 <b>연필 → 색·급식·소리</b>에서 언제든 바꿀 수 있어요.</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -517,7 +529,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       </div>
       <div class="end rv pop">
         <h2>오늘부터 칠판에 띄워보세요</h2>
-        <p>파일 하나, 설치 없음. 지금 보고 있는 색으로 받아져요.</p>
+        <p>파일 하나, 설치 없음. <a href="#f-color" class="dlcolor">고른 색</a>으로 받아져요.</p>
         <a class="btn dl" href="dl/chalk/classboard.html" download="classboard.html">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
           프로그램 내려받기
@@ -626,28 +638,27 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#lb'))closeLb();
 });
 addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
-// 색 고르기: 누른 점에서 동그랗게 퍼지며 바뀌기
-const themeBtns=[...document.querySelectorAll('#themes button')];
+// 화면 색: 페이지 색은 그대로, 사진과 내려받는 파일만 그 색으로
+const NAMES={chalk:'분필과 칠판',green:'초록',sky:'하늘과 연필',crayon:'크레파스',mono:'먹색'};
+const sw=[...document.querySelectorAll('#swatches button')];
 const themed=(src,t)=>src.replace(/img\/[a-z]+\//,'img/'+t+'/').replace(/dl\/[a-z]+\//,'dl/'+t+'/');
 function swapAssets(t){
-  document.querySelectorAll('img[src*="img/"]').forEach(i=>{const n=themed(i.getAttribute('src'),t);if(n!==i.getAttribute('src'))i.setAttribute('src',n);});
+  document.querySelectorAll('img[src*="img/"]').forEach(i=>{if(i.id==='colorPrev')return;const n=themed(i.getAttribute('src'),t);if(n!==i.getAttribute('src'))i.setAttribute('src',n);});
   document.querySelectorAll('a.dl').forEach(a=>a.setAttribute('href',themed(a.getAttribute('href'),t)));
 }
-swapAssets(document.documentElement.dataset.theme||'chalk');
-function markTheme(){const t=document.documentElement.dataset.theme||'chalk';themeBtns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t));}
-markTheme();
-themeBtns.forEach(b=>b.addEventListener('click',()=>{
-  const t=b.dataset.t;if((document.documentElement.dataset.theme||'chalk')===t)return;
-  const apply=()=>{document.documentElement.dataset.theme=t;markTheme();swapAssets(t);try{localStorage.setItem('cbm-theme',t);}catch(e){}};
-  if(!document.startViewTransition){apply();return;}
-  const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
-  const rad=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
-  const st=document.documentElement.style;st.setProperty('--tx',x+'px');st.setProperty('--ty',y+'px');st.setProperty('--tr',rad+'px');
-  // 보이는 사진은 새 색 사진을 먼저 받아두고 바꾸기
-  const vis=[...document.querySelectorAll('img[src*="img/"]')].filter(i=>{const r=i.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight;});
-  const pre=vis.map(i=>{const im=new Image();im.src=themed(i.getAttribute('src'),t);return im.decode().catch(()=>{});});
-  Promise.race([Promise.all(pre),new Promise(r=>setTimeout(r,700))]).then(()=>document.startViewTransition(apply));
-}));
+let shotTheme='chalk';try{shotTheme=localStorage.getItem('cbm-shot')||'chalk';}catch(e){}
+function pickColor(t,anim){
+  shotTheme=t;sw.forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t));
+  document.getElementById('colorCap').textContent=NAMES[t];
+  document.querySelectorAll('.dlcolor').forEach(a=>a.textContent=NAMES[t]);
+  const prev=document.getElementById('colorPrev'),src='img/'+t+'/01.jpg';
+  if(anim){const im=new Image();im.src=src;prev.classList.add('fade');
+    Promise.race([im.decode().catch(()=>{}),new Promise(r=>setTimeout(r,600))]).then(()=>{prev.setAttribute('src',src);requestAnimationFrame(()=>prev.classList.remove('fade'));});}
+  else prev.setAttribute('src',src);
+  swapAssets(t);
+}
+pickColor(NAMES[shotTheme]?shotTheme:'chalk',false);
+sw.forEach(b=>b.addEventListener('click',()=>{if(b.dataset.t===shotTheme)return;pickColor(b.dataset.t,true);try{localStorage.setItem('cbm-shot',b.dataset.t);}catch(e){}}));
 </script>
 </body>
 </html>
