@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>우리 반 칠판 사용 설명서</title>
+<meta name="description" content="교실 칠판(TV·전자칠판)에 띄워두는 학급 화면 프로그램 우리 반 칠판의 사용 설명서와 내려받기">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* 칠판 프로그램과 같은 색: 연초록 바탕, 짙은 초록 글씨, 초록 강조, 보라(전담·체크) */
+:root{
+  --bg:#f1f6f3; --card:#fff; --ink:#0d3b2e; --sub:#4d6b61; --mute:#7d918a; --line:#dbe7e1;
+  --green:#1a9b74; --green-d:#11795a; --green-soft:#dcefe6;
+  --purple:#4a37a6; --lav:#ece8fc; --orange:#e0612f; --peach:#ffe9dd;
+  --display:'Jua','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  --body:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  --r:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.25;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:6px}
+
+/* 위쪽 바 */
+.bar{position:sticky;top:0;z-index:20;background:rgba(241,246,243,.88);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.bar.scrolled{border-bottom-color:var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.logo{font-family:var(--display);font-size:22px;display:flex;align-items:center;gap:10px;text-decoration:none;white-space:nowrap}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--green);display:grid;place-items:center;color:#fff;font-style:normal;font-size:16px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-left:auto;padding:4px 0}
+.chips::-webkit-scrollbar{display:none}
+.chips a{white-space:nowrap;text-decoration:none;font-size:14px;font-weight:500;color:var(--sub);padding:7px 13px;border-radius:999px;transition:background .15s,color .15s}
+.chips a:hover{background:var(--green-soft);color:var(--ink)}
+.chips a.on{background:var(--ink);color:#fff}
+
+/* 첫 화면 */
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center}
+.eyebrow{display:inline-block;font-size:14px;font-weight:700;color:var(--green-d);background:var(--green-soft);padding:5px 12px;border-radius:999px;margin-bottom:18px}
+.hero h1{font-size:clamp(40px,5.4vw,64px);letter-spacing:-.01em}
+.hero h1 b{font-weight:400;color:var(--green)}
+.hero .lead{font-size:19px;color:var(--sub);margin-top:18px;max-width:30em}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:21px;text-decoration:none;padding:15px 26px;border-radius:16px;background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-d);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-d)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--green-d)}
+.btn svg{width:22px;height:22px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--green);transform:none}
+.fine{font-size:14px;color:var(--mute);margin-top:14px}
+.tv{position:relative;background:#22302b;border-radius:26px;padding:14px;box-shadow:0 30px 60px -30px rgba(13,59,46,.55)}
+.tv img{border-radius:14px;cursor:zoom-in}
+.tv::after{content:"";position:absolute;left:50%;bottom:-26px;width:120px;height:26px;transform:translateX(-50%);background:linear-gradient(#3a4a44,#22302b);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%)}
+.points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:70px}
+.point{background:var(--card);border-radius:18px;padding:18px 18px 16px}
+.point b{display:block;font-family:var(--display);font-weight:400;font-size:20px;margin-bottom:2px}
+.point span{font-size:14.5px;color:var(--sub);line-height:1.55;display:block}
+
+/* 섹션 공통 */
+section.blk{padding:80px 0}
+.sec-head{max-width:640px;margin-bottom:40px}
+.sec-head .eyebrow{margin-bottom:12px}
+.sec-head h2{font-size:clamp(30px,3.6vw,42px)}
+.sec-head p{color:var(--sub);margin-top:10px;font-size:18px}
+
+/* 3단계 */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;counter-reset:s}
+.step{background:var(--card);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.step .n{width:42px;height:42px;border-radius:13px;background:var(--ink);color:#fff;font-family:var(--display);font-size:22px;display:grid;place-items:center}
+.step h3{font-size:24px}
+.step p,.step li{color:var(--sub);font-size:15.5px}
+.step ol{margin:0;padding-left:20px}
+.step code,.feat code,.faq code{font-family:ui-monospace,Consolas,monospace;font-size:.88em;background:var(--green-soft);color:var(--ink);padding:1px 6px;border-radius:6px;white-space:nowrap}
+.cmd{position:relative;background:#11231d;color:#cfe9df;border-radius:14px;padding:14px 14px 14px 16px;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.6;word-break:break-all}
+.cmd button{position:absolute;top:8px;right:8px;border:0;background:#2b4a40;color:#fff;font-family:var(--body);font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;cursor:pointer}
+.cmd button:hover{background:var(--green)}
+.cmd span{display:block;padding-right:52px}
+.tip{background:var(--peach);color:#7a3413;border-radius:12px;padding:10px 13px;font-size:14px;line-height:1.6}
+
+/* 기능 */
+.feat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;align-items:center;padding:52px 0;border-top:1px solid var(--line)}
+.feat:first-of-type{border-top:0}
+.feat.flip{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.feat.flip .media{order:2}
+.media{display:grid;gap:14px}
+.media.two{grid-template-columns:1fr 1fr;align-items:start}
+.shot{background:var(--card);border-radius:18px;padding:8px;box-shadow:0 18px 40px -28px rgba(13,59,46,.5)}
+.shot img{border-radius:12px;cursor:zoom-in;width:100%}
+.shot figcaption{font-size:13px;color:var(--mute);padding:8px 6px 2px;text-align:center}
+figure{margin:0}
+.txt .tag{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--green-d);margin-bottom:10px}
+.txt .tag i{font-style:normal;font-size:20px}
+.txt h3{font-size:clamp(28px,3vw,36px)}
+.txt .one{font-size:18px;color:var(--sub);margin-top:8px}
+.how{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:12px}
+.how li{display:grid;grid-template-columns:30px 1fr;gap:10px;font-size:16px;line-height:1.6}
+.how li::before{content:"";width:26px;height:26px;border-radius:8px;background:var(--green-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2311795a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L19 7'/%3E%3C/svg%3E") center/15px no-repeat;margin-top:1px}
+.how b{font-weight:700;color:var(--ink)}
+.note{margin-top:18px;font-size:14.5px;background:var(--lav);color:var(--purple);border-radius:12px;padding:10px 14px}
+.note.warm{background:var(--peach);color:#7a3413}
+
+/* 편집 갤러리 */
+.edit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.edit-card{background:var(--card);border-radius:var(--r);padding:10px 10px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.edit-card img{border-radius:13px;aspect-ratio:16/10;object-fit:cover;object-position:top left;cursor:zoom-in;width:100%}
+.edit-card h3{font-size:21px;padding:0 8px}
+.edit-card p{font-size:14.5px;color:var(--sub);padding:0 8px;line-height:1.6}
+
+/* 자주 묻는 것 */
+.faq{display:grid;gap:10px;max-width:820px}
+.faq details{background:var(--card);border-radius:16px;padding:0 20px}
+.faq summary{list-style:none;cursor:pointer;font-family:var(--display);font-size:20px;padding:17px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--body);font-size:24px;color:var(--green);transition:transform .2s;line-height:1}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .ans{padding:0 0 18px;color:var(--sub);font-size:15.5px}
+.faq .ans ul{margin:0;padding-left:20px}
+
+/* 마지막 */
+.end{background:var(--ink);color:#e6f2ec;border-radius:32px;padding:56px 40px;text-align:center;margin:40px 0 70px}
+.end h2{font-size:clamp(28px,3.4vw,40px);color:#fff}
+.end p{color:#a9c6bb;margin-top:10px}
+.end .btn{margin-top:26px;background:#fff;color:var(--ink);box-shadow:0 4px 0 #9cc7b6}
+footer{text-align:center;font-size:13px;color:var(--mute);padding:0 0 40px}
+
+/* 크게 보기 */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(8,24,18,.86);display:grid;place-items:center;padding:24px;cursor:zoom-out;opacity:0;pointer-events:none;transition:opacity .2s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-height:92vh;width:auto;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:scale(.96);transition:transform .25s}
+.lb.open img{transform:none}
+
+/* 나타나기 */
+@media (prefers-reduced-motion:no-preference){
+  .rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+  .hero .rise:nth-child(2){animation-delay:.08s}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}}
+}
+
+@media (max-width:900px){
+  .hero{padding-top:36px}
+  .hero-grid,.feat,.feat.flip{grid-template-columns:1fr;gap:28px}
+  .feat.flip .media{order:0}
+  .points{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:56px}
+  .steps,.edit-grid{grid-template-columns:1fr}
+  section.blk{padding:56px 0}
+  .end{padding:40px 22px}
+  .logo span{display:none}
+}
+@media (max-width:520px){
+  .media.two{grid-template-columns:1fr}
+  .points{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="bar" id="bar">
+  <div class="wrap">
+    <a class="logo" href="#top"><i>칠</i><span>우리 반 칠판</span></a>
+    <nav class="chips" id="chips" aria-label="바로가기">
+      <a href="#start">시작하기</a>
+      <a href="#f-tt">시간표</a>
+      <a href="#f-notice">안내 문구</a>
+      <a href="#f-timer">타이머</a>
+      <a href="#f-jeon">전담 알림</a>
+      <a href="#f-check">제출 체크</a>
+      <a href="#f-role">1인 1역</a>
+      <a href="#f-warn">경고</a>
+      <a href="#f-meal">급식</a>
+      <a href="#edit">설정</a>
+      <a href="#faq">이럴 땐</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="rise">
+          <span class="eyebrow">교실 TV · 전자칠판용</span>
+          <h1>칠판에 띄워두는<br><b>우리 반 하루</b></h1>
+          <p class="lead">오늘의 시간표, 큰 시계, 시간대별 안내, 제출 체크, 1인 1역, 급식, 타이머를 한 화면에. 파일 하나만 크롬으로 열면 끝이에요.</p>
+          <div class="cta">
+            <a class="btn" href="classboard.html" download="classboard.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+              프로그램 내려받기
+            </a>
+            <a class="btn ghost" href="#start">사용법 보기</a>
+          </div>
+          <p class="fine">설치 없음 · 인터넷 없이 동작(급식만 인터넷 필요) · 크롬 권장</p>
+        </div>
+        <div class="tv rise"><img src="img/01.jpg" alt="수업 중인 우리 반 칠판 화면. 왼쪽에 오늘의 시간표, 오른쪽에 큰 시계와 안내, 아래에 제출 체크" width="1400" height="787"></div>
+      </div>
+      <div class="points">
+        <div class="point"><b>📅 시간표</b><span>지금 교시가 초록색으로 차오르고, 끌어서 그날만 바꿔요</span></div>
+        <div class="point"><b>⏱️ 타이머</b><span>시계를 누르면 화면 가득 큰 타이머</span></div>
+        <div class="point"><b>✅ 제출 체크</b><span>이름만 누르면 낸 학생은 흐려지고 안 낸 학생만 남아요</span></div>
+        <div class="point"><b>🔔 전담 알림</b><span>전담 5분 전에 책 챙기고 줄 서라고 알려줘요</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="start" style="background:var(--card)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">시작하기</span>
+        <h2>세 단계면 칠판에 떠요</h2>
+        <p>처음 한 번만 해두면 다음부터는 컴퓨터를 켤 때 저절로 열려요.</p>
+      </div>
+      <div class="steps">
+        <div class="step" style="background:var(--bg)">
+          <span class="n">1</span>
+          <h3>파일 넣기</h3>
+          <p>위의 <b>프로그램 내려받기</b>로 받은 <code>classboard.html</code>을 <code>C:\classboard</code> 폴더를 만들어 넣어요. 파일 이름은 그대로 두세요.</p>
+          <p class="tip">이름이 <code>classboard (1).html</code>로 받아졌다면 <code>classboard.html</code>로 고쳐주세요.</p>
+        </div>
+        <div class="step" style="background:var(--bg)">
+          <span class="n">2</span>
+          <h3>바로가기 만들기</h3>
+          <p>바탕화면 오른쪽 클릭 → 새로 만들기 → <b>바로 가기</b> → 아래 글을 붙여넣고 이름은 「우리 반 칠판」.</p>
+          <div class="cmd"><button type="button" id="copyBtn">복사</button><span id="cmdText">"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="C:\classboard\profile" --app="file:///C:/classboard/classboard.html" --window-position=1920,0 --start-fullscreen</span></div>
+          <p class="tip">두 번째 모니터가 왼쪽이면 <code>1920,0</code>을 <code>-1920,0</code>으로. 안 열리면 <code>Program Files</code>를 <code>Program Files (x86)</code>으로 바꿔보세요.</p>
+        </div>
+        <div class="step" style="background:var(--bg)">
+          <span class="n">3</span>
+          <h3>켜면 자동으로</h3>
+          <ol>
+            <li><code>윈도우키 + R</code> → <code>shell:startup</code> → 확인</li>
+            <li>열린 폴더에 바탕화면의 「우리 반 칠판」 바로가기를 복사해 넣기</li>
+          </ol>
+          <p>그다음 오른쪽 위 <b>연필</b>을 눌러 시간표·명단·학교를 우리 반에 맞게 바꿔요. <a href="#edit">설정 보기 →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">기능</span>
+        <h2>하루 동안 이렇게 써요</h2>
+        <p>사진을 누르면 크게 볼 수 있어요.</p>
+      </div>
+
+      <article class="feat" id="f-tt">
+        <div class="media two">
+          <figure class="shot"><img src="img/02.jpg" alt="2교시 줄을 잡아 4교시 자리로 끄는 모습" loading="lazy" width="775" height="1125"><figcaption>끌어서 자리 바꾸기</figcaption></figure>
+          <figure class="shot"><img src="img/04.jpg" alt="내일 시간표를 미리 보고 바꾼 모습" loading="lazy" width="775" height="1125"><figcaption>다른 날 미리 보고 바꾸기</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>📅</i>시간표</span>
+          <h3>시간이 흐르는 게 보이는 시간표</h3>
+          <p class="one">지금 교시가 초록 줄로 표시되고, 수업 시간이 지날수록 진하게 차올라요.</p>
+          <ul class="how">
+            <li><span><b>끌어서 놓으면</b> 두 과목이 자리를 바꿔요. 그날에만 적용돼요.</span></li>
+            <li><span>교시를 <b>두 번 누르면</b> 그날만 과목 이름을 바꿔요. (예: 학예회 연습)</span></li>
+            <li><span>제목 옆 <b>◀ ▶</b>로 한 주 뒤까지 미리 보고 바꿔둘 수 있어요. 1분 지나면 오늘로 돌아와요.</span></li>
+          </ul>
+          <p class="note">기본 시간표는 그대로예요. 바뀐 날에는 「바뀜」 표시와 <b>원래대로</b> 버튼이 생겨요.</p>
+        </div>
+      </article>
+
+      <article class="feat flip" id="f-notice">
+        <div class="media">
+          <figure class="shot"><img src="img/05.jpg" alt="아침활동 시간에 안내 문구가 크게 나오는 화면" loading="lazy" width="1400" height="787"><figcaption>아침활동 시간에는 안내가 크게</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>🕗</i>시계와 안내 문구</span>
+          <h3>시간대마다 할 일을 띄워줘요</h3>
+          <p class="one">등교 전, 아침활동, 수업, 쉬는 시간, 점심마다 정해둔 안내가 나와요.</p>
+          <ul class="how">
+            <li><span>아침활동 시간(기본 8:00~9:00)에는 큰 시계가 작아지고 <b>안내가 칸에 꽉 차게</b> 커져요.</span></li>
+            <li><span>아침 안내 글자를 <b>두 번 누르면</b> 그 자리에서 바로 고쳐요. 바깥을 누르면 저장, Esc는 취소.</span></li>
+            <li><span>시간대별 문구는 <b>연필 → 안내 문구</b>에서 정해요.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feat" id="f-timer">
+        <div class="media">
+          <figure class="shot"><img src="img/08.jpg" alt="화면 전체에 3분 43초가 크게 나온 타이머" loading="lazy" width="1400" height="787"><figcaption>화면 가득 타이머</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>⏱️</i>타이머</span>
+          <h3>시계를 누르면 타이머</h3>
+          <p class="one">버튼을 따로 찾을 필요 없이, 큰 시계를 톡 누르면 돼요.</p>
+          <ul class="how">
+            <li><span><b>30초 · 1분 · 3분 · 5분 · 10분 · 15분</b> 중 고르거나 직접 입력해요.</span></li>
+            <li><span>도는 동안 <b>일시정지 · +30초 · +1분 · 그만</b>을 쓸 수 있어요.</span></li>
+            <li><span>끝나면 「시간 끝!」이 흔들리며 「띵동」이 울려요. 화면을 누르면 돌아가요.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feat flip" id="f-jeon">
+        <div class="media">
+          <figure class="shot"><img src="img/10.jpg" alt="영어 전담 5분 전, 영어책 챙기고 줄 서요 알림" loading="lazy" width="1400" height="787"><figcaption>전담 5분 전 알림</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>🔔</i>전담 5분 전 알림</span>
+          <h3>전담 시간을 놓치지 않게</h3>
+          <p class="one">전담 수업 5분 전에 화면 전체로 알려줘요.</p>
+          <ul class="how">
+            <li><span>「영어 전담 5분 전!」과 「영어책 챙기고 줄 서요」가 뜨고, 남은 시간이 줄어들어요.</span></li>
+            <li><span>수업이 시작되면 저절로 사라지고, <b>닫기</b>로 먼저 닫을 수 있어요.</span></li>
+            <li><span>문구는 <b>연필 → 안내 문구</b>에서 바꾸고 <b>알림 미리 보기</b>로 확인해요.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feat" id="f-check">
+        <div class="media">
+          <figure class="shot"><img src="img/11.jpg" alt="낸 학생 이름에는 가로줄, 안 낸 학생은 또렷하게 남은 제출 체크" loading="lazy" width="1141" height="434"><figcaption>안 낸 학생만 또렷하게</figcaption></figure>
+          <figure class="shot"><img src="img/13.jpg" alt="탭 이름을 두 번 눌러 일기 제출로 바꾸는 모습" loading="lazy" width="1141" height="113"><figcaption>탭 이름도 두 번 눌러 바로 바꿔요</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>✅</i>제출 체크</span>
+          <h3>누가 안 냈는지 한눈에</h3>
+          <p class="one">이름을 누르면 회색 가로줄이 그어지고, 아직 안 낸 학생만 남아요.</p>
+          <ul class="how">
+            <li><span><b>번호</b>를 켜면 이름 왼쪽에 번호 칸이 생겨요. 여학생은 분홍, 남학생은 파랑.</span></li>
+            <li><span>안내장 · 일기처럼 <b>탭을 여러 개</b> 만들 수 있고, 기록은 탭마다 따로예요.</span></li>
+            <li><span><b>초기화</b>는 두 번 눌러야 지워져요. 지금 보는 탭만 지워져요.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feat flip" id="f-role">
+        <div class="media">
+          <figure class="shot"><img src="img/15.jpg" alt="역할과 담당 학생이 종류별 색으로 나온 1인 1역 팝업" loading="lazy" width="1400" height="787"><figcaption>1인 1역 버튼을 누르면</figcaption></figure>
+          <figure class="shot"><img src="img/12.jpg" alt="1인 1역 체크 탭에서 이름 옆에 역할이 짧게 나온 모습" loading="lazy" width="1141" height="434"><figcaption>「1인 1역」 체크 탭에는 역할이 함께</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>🧹</i>1인 1역</span>
+          <h3>누가 무슨 역할인지 바로</h3>
+          <p class="one">교실 청소, 복도·계단, 정리, 분리수거·우유, 이끔이를 색으로 나눠 보여줘요.</p>
+          <ul class="how">
+            <li><span>이름이 「1인 1역」인 체크 탭을 만들면 <b>이름 옆에 역할</b>이 붙어요. 역할을 했는지 확인할 때 좋아요.</span></li>
+            <li><span>한 달마다 <b>연필 → 1인 1역</b>에서 담당만 바꾸면 두 곳이 함께 바뀌어요.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feat" id="f-warn">
+        <div class="media">
+          <figure class="shot"><img src="img/14.jpg" alt="경고 탭. 경고 1개는 동그라미 하나, 2개면 주황색 벌칙 표시" loading="lazy" width="1141" height="434"><figcaption>경고 탭</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>⚠️</i>경고</span>
+          <h3>경고 2번이면 벌칙</h3>
+          <p class="one">제출 체크 맨 끝 <b>경고</b> 탭에서 써요.</p>
+          <ul class="how">
+            <li><span>이름을 누르면 경고 1개, 2개가 되면 주황색 「벌칙」이 붙어요.</span></li>
+            <li><span>잘못 눌렀으면 <b>오른쪽 클릭</b>으로 하나 빼요.</span></li>
+            <li><span><b>매주 월요일</b> 자동으로 모두 지워져요.</span></li>
+          </ul>
+          <p class="note warm">경고는 경고 탭을 열었을 때만 보여요. 다른 탭을 누르면 바로 숨겨지고, 화면을 새로 켜면 항상 제출 체크 탭으로 시작해요.</p>
+        </div>
+      </article>
+
+      <article class="feat flip" id="f-meal">
+        <div class="media">
+          <figure class="shot"><img src="img/16.jpg" alt="오늘 급식이 식판 모양으로 나온 팝업" loading="lazy" width="1400" height="787"><figcaption>식판 모양 급식</figcaption></figure>
+        </div>
+        <div class="txt">
+          <span class="tag"><i>🍱</i>급식</span>
+          <h3>오늘 급식을 식판에 담아서</h3>
+          <p class="one">나이스(NEIS)에서 학교 급식을 불러와 식판 모양으로 보여줘요.</p>
+          <ul class="how">
+            <li><span>밥·국은 아래 큰 칸, 반찬은 위, 과일·음료는 옆 칸. 우유는 빠져요.</span></li>
+            <li><span><b>◀ 전날 · 오늘 · 다음날 ▶</b>로 다른 날도 봐요.</span></li>
+            <li><span>처음에 <b>연필 → 급식·소리</b>에서 학교 이름과 교육청을 넣어야 해요. 인터넷이 필요해요.</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="blk" id="edit" style="background:var(--card)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">설정</span>
+        <h2>연필 하나로 우리 반에 맞게</h2>
+        <p>오른쪽 위 연필 버튼을 누르면 편집 창이 열려요. 고친 뒤 <b>저장</b>을 눌러야 반영돼요. 설정은 그 컴퓨터의 크롬에 저장돼요.</p>
+      </div>
+      <div class="edit-grid">
+        <div class="edit-card" style="background:var(--bg)"><img src="img/17.jpg" alt="편집 창의 시간표 탭" loading="lazy"><h3>시간표</h3><p>요일별 기본 시간표. 전담 수업은 칸 오른쪽 「전담」을 눌러 켜요.</p></div>
+        <div class="edit-card" style="background:var(--bg)"><img src="img/18.jpg" alt="편집 창의 교시 시각 탭" loading="lazy"><h3>교시 시각</h3><p>아침활동, 교시별 시작·끝, 점심시간과 점심 위치.</p></div>
+        <div class="edit-card" style="background:var(--bg)"><img src="img/19.jpg" alt="편집 창의 안내 문구 탭" loading="lazy"><h3>안내 문구</h3><p>시간대별 안내와 전담 알림 문구. 엔터로 줄을 나눠요.</p></div>
+        <div class="edit-card" style="background:var(--bg)"><img src="img/20.jpg" alt="편집 창의 학생·제출 체크 탭" loading="lazy"><h3>학생·제출 체크</h3><p>명단은 한 줄에 한 명, 번호 순서대로. 여학생 번호 범위와 체크 탭도 여기서.</p></div>
+        <div class="edit-card" style="background:var(--bg)"><img src="img/21.jpg" alt="편집 창의 1인 1역 탭" loading="lazy"><h3>1인 1역</h3><p>역할 · 짧은 이름 · 하는 일 · 담당 학생 · 종류(색).</p></div>
+        <div class="edit-card" style="background:var(--bg)"><img src="img/22.jpg" alt="편집 창의 급식·소리 탭" loading="lazy"><h3>급식·소리</h3><p>학교 이름, 교육청, 알림 소리 켜고 끄기.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">이럴 땐 이렇게</span>
+        <h2>자주 묻는 것</h2>
+      </div>
+      <div class="faq">
+        <details><summary>급식이 안 나와요</summary><div class="ans"><ul><li>연필 → 급식·소리에서 학교 이름과 교육청이 맞는지 확인해주세요. 같은 이름의 학교가 여럿이면 「학교 주소에 들어가는 말」에 시·군 이름을 넣어요.</li><li>교실 컴퓨터가 인터넷에 연결돼 있어야 해요. 학교 보안 프로그램이 막는 경우도 있어요.</li><li>방학·주말처럼 급식이 없는 날은 「급식 정보가 없어요」라고 나와요.</li></ul></div></details>
+        <details><summary>알림 소리가 안 나요</summary><div class="ans"><ul><li>브라우저는 화면을 한 번이라도 누른 뒤에만 소리를 낼 수 있어요. 아침에 켜고 아무 데나 한 번 눌러주세요.</li><li>위쪽 스피커 버튼이 꺼져 있지 않은지 확인해주세요.</li></ul></div></details>
+        <details><summary>고쳐둔 내용이 사라졌어요</summary><div class="ans"><ul><li>설정은 그 컴퓨터, 그 크롬에 저장돼요. 바로가기로 열 때와 그냥 크롬으로 열 때도 서로 따로예요. 항상 같은 바로가기로 열어주세요.</li><li>크롬의 「인터넷 사용 기록 삭제」에서 쿠키·사이트 데이터를 지우면 함께 지워져요.</li></ul></div></details>
+        <details><summary>새 버전으로 바꾸고 싶어요</summary><div class="ans">칠판 화면을 끄고(<code>Alt + F4</code>) <code>C:\classboard</code>의 파일을 같은 이름으로 덮어쓰면 돼요. 고쳐둔 시간표와 체크 기록은 그대로 남아요.</div></details>
+        <details><summary>화면이 너무 크거나 작아요</summary><div class="ans">전체화면(<code>F11</code>)에서 쓰는 걸 기준으로 맞춰져 있어요. 크롬 확대/축소(<code>Ctrl + -</code>, <code>Ctrl + +</code>)로 조절할 수 있어요.</div></details>
+        <details><summary>끄고 싶어요</summary><div class="ans">화면을 한 번 누르고 <code>Alt + F4</code>, 전체화면만 풀려면 <code>F11</code>이에요.</div></details>
+      </div>
+
+      <div class="end">
+        <h2>오늘부터 칠판에 띄워보세요</h2>
+        <p>파일 하나, 설치 없음. 처음 열면 예시 반이 들어 있어요.</p>
+        <a class="btn" href="classboard.html" download="classboard.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+          프로그램 내려받기
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>우리 반 칠판 · 사진 속 학생 이름은 모두 예시예요</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기"><img id="lbImg" alt=""></div>
+
+<script>
+// 위쪽 바 그림자
+const bar=document.getElementById('bar');
+addEventListener('scroll',()=>bar.classList.toggle('scrolled',scrollY>8),{passive:true});
+
+// 지금 보고 있는 부분의 칩 강조
+const links=[...document.querySelectorAll('#chips a')];
+const targets=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){const id='#'+e.target.id;links.forEach(a=>{const on=a.getAttribute('href')===id;a.classList.toggle('on',on);if(on)a.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});});}});
+},{rootMargin:'-40% 0px -55% 0px'});
+targets.forEach(t=>io.observe(t));
+
+// 바로가기 글 복사
+document.getElementById('copyBtn').addEventListener('click',async e=>{
+  const t=document.getElementById('cmdText').textContent,b=e.currentTarget;
+  try{await navigator.clipboard.writeText(t);b.textContent='복사됨';}
+  catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('cmdText'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='선택됨';}
+  setTimeout(()=>b.textContent='복사',1600);
+});
+
+// 사진 크게 보기
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+document.addEventListener('click',e=>{
+  const img=e.target.closest('.tv img,.shot img,.edit-card img');
+  if(img){lbImg.src=img.currentSrc||img.src;lbImg.alt=img.alt;lb.classList.add('open');return;}
+  if(e.target.closest('#lb'))lb.classList.remove('open');
+});
+addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
+</script>
+</body>
+</html>
