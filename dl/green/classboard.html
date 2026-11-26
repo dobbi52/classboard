@@ -221,12 +221,12 @@ body.am .notice.editing .v{outline:none;caret-color:var(--purple)}
 .role-card{background:var(--gb);border-radius:1rem;overflow:hidden;display:flex;flex-direction:column}
 .legend{display:flex;gap:.5rem;flex-wrap:wrap;font-size:1.15rem;margin-right:4rem}
 .legend span{background:var(--gb);color:var(--gd);padding:.25rem .8rem;border-radius:2rem;display:flex;align-items:center;gap:.4rem}
-.legend span::before{content:'';width:.7rem;height:.7rem;border-radius:50%;background:var(--gd)}
+.legend span::before{content:'';width:.7rem;height:.7rem;border-radius:50%;background:var(--gs,var(--gd))}
 .role-card .top2{padding:.45rem .7rem .35rem;flex:1;display:flex;flex-direction:column;gap:.15rem;align-items:center;text-align:center}
 .role-card .r{font-size:1.45rem;color:var(--ink)}
-.role-card .d{font-size:.95rem;color:var(--gd);font-family:var(--ui);line-height:1.3}
-.role-card .p{font-size:1.5rem;color:#fff;background:var(--gd);text-align:center;padding:.2rem .5rem}
-.role-card .p.empty{color:#c9b98a}
+.role-card .d{font-size:.95rem;color:var(--gs,var(--gd));font-family:var(--ui);line-height:1.3}
+.role-card .p{font-size:1.5rem;color:var(--gd);background:var(--gm,var(--gd));text-align:center;padding:.2rem .5rem}
+.role-card .p.empty{color:var(--gs,#c9b98a)}
 .meal-nav{display:flex;gap:.5rem;margin-left:auto;margin-right:4rem}
 .meal-nav button{border:0;background:var(--bg);border-radius:.8rem;font-size:1.3rem;padding:.4rem .9rem;color:var(--ink)}
 .meal-wrap{display:flex;gap:1.4rem;align-items:stretch}
@@ -410,7 +410,7 @@ body.am .notice .v{animation:rise .6s .1s ease-out both}
 const KEY='classboard-v1';
 const DAYS=['일','월','화','수','목','금','토'];
 const C=(s,j=false)=>({s,j});
-const RG=[['room','교실 청소','#e2f3e9','#1f8a5b'],['out','복도·계단·스탠드','#e1edfb','#2f6cc0'],['tidy','정리','#ede7fc','#6847c2'],['carry','분리수거·우유','#ffefd9','#c06a0c'],['lead','이끔이','#ffe3e6','#cc3d58'],['etc','기타','#edf1ef','#5b6d66']];
+const RG=[['room','교실 청소','#eef6f0','#2f5e45','#cfe6d7','#5d8f73'],['out','복도·계단·스탠드','#eef3fa','#34557f','#d3e1f2','#5f7fa8'],['tidy','정리','#f2effa','#54478a','#e0daf1','#8072ad'],['carry','분리수거·우유','#fbf3e7','#7a5427','#f2e0c6','#a8804f'],['lead','이끔이','#fbeff0','#86404d','#f2d6da','#b0707c'],['etc','기타','#f1f3f2','#4a5a54','#dde3e0','#7d8b86']];
 const REGIONS=[['B10','서울'],['C10','부산'],['D10','대구'],['E10','인천'],['F10','광주'],['G10','대전'],['H10','울산'],['I10','세종'],['J10','경기'],['K10','강원'],['M10','충북'],['N10','충남'],['P10','전북'],['Q10','전남'],['R10','경북'],['S10','경남'],['T10','제주']];
 
 const DEFAULTS={
@@ -728,10 +728,10 @@ $('pop').addEventListener('click',e=>{if(e.target.closest('.x'))closePop();});
 
 $('btnRole').onclick=()=>{
   const gi=g=>{const i=RG.findIndex(r=>r[0]===g);return i<0?RG.length-1:i};
-  const sty=g=>{const r=RG[gi(g)];return `--gb:${r[2]};--gd:${r[3]}`};
+  const sty=g=>{const r=RG[gi(g)];return `--gb:${r[2]};--gd:${r[3]};--gm:${r[4]};--gs:${r[5]}`};
   const list=S.roles.filter(x=>x.r.trim()||x.p.trim()).map((x,i)=>({x,i})).sort((a,b)=>gi(a.x.g)-gi(b.x.g)||a.i-b.i).map(o=>o.x);
   const used=RG.filter(r=>list.some(x=>gi(x.g)===RG.indexOf(r)));
-  const legend=`<span class="legend">${used.map(r=>`<span style="--gb:${r[2]};--gd:${r[3]}">${r[1]}</span>`).join('')}</span>`;
+  const legend=`<span class="legend">${used.map(r=>`<span style="--gb:${r[2]};--gd:${r[3]};--gs:${r[5]}">${r[1]}</span>`).join('')}</span>`;
   const cards=list.map((x,i)=>`<div class="role-card" style="${sty(x.g)};--i:${i}"><div class="top2"><div class="r">${esc(x.r)}</div>${x.d?`<div class="d">${esc(x.d)}</div>`:''}</div><div class="p${x.p.trim()?'':' empty'}">${esc(x.p.trim()||'아직 없음')}</div></div>`).join('');
   openPop(`<button class="x" aria-label="닫기">✕</button><h3>1인 1역 ${legend}</h3><div class="roles">${cards||'<p class="meal-msg">편집에서 역할을 넣어주세요</p>'}</div>`,'wide');
 };
