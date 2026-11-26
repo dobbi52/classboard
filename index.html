@@ -263,6 +263,32 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   .pin{width:24px;height:24px}.pin span{font-size:14px;box-shadow:0 2px 6px -1px rgba(0,0,0,.35),0 0 0 2px #fff}
 }
 
+
+.zoomer{position:relative;transform-origin:0 0;transition:transform .65s var(--ease)}
+.zoom-more{display:none}
+@media (max-width:700px){
+  .pin{transform:translate(5px,5px);width:20px;height:20px}
+  .pin span{font-size:12px;box-shadow:0 1px 4px rgba(0,0,0,.35),0 0 0 1.5px #fff}
+  .pin::before{animation-duration:2.8s}
+  .zoomed .pin{opacity:0;pointer-events:none}
+  .pin{transition:opacity .3s}
+  .screen.lit .spot{opacity:0}
+  #map{padding:8px;border-radius:18px}
+  #map::after{width:80px;height:18px;bottom:-18px}
+  .screen{border-radius:10px}
+  .map-cards{display:flex;flex-direction:column;gap:6px;margin-top:34px}
+  .map-cards .mapc:last-child{grid-column:auto}
+  .mapc{flex-direction:row;align-items:center;gap:10px;padding:11px 14px;border-radius:14px}
+  .mapc .num{margin:0;flex:none;width:24px;height:24px;font-size:14px}
+  .mapc .t{font-size:16.5px;white-space:nowrap}
+  .mapc .d{font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mapc:hover{transform:none;box-shadow:none}
+  .mapc.on{transform:none;box-shadow:inset 0 0 0 2px var(--ink)}
+  .mapc.on .d{color:var(--ink)}
+  .zoom-more{display:block;text-align:right;font-size:13.5px;font-weight:500;color:var(--green-d);text-decoration:none;margin:30px 4px -22px;opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s;pointer-events:none}
+  .zoom-more.show{opacity:1;transform:none;pointer-events:auto}
+}
+
 /* 크게 보기: 사진 자리에서 커지기 */
 .lb{transition:opacity .3s}
 .lb img{transform:none;transition:none;will-change:transform}
@@ -324,11 +350,14 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
       </div>
       <div class="tv" id="map">
         <div class="screen">
+          <div class="zoomer" id="zoomer">
           <img src="img/chalk/01.jpg" alt="수업 중인 우리 반 칠판 화면. 왼쪽에 오늘의 시간표, 오른쪽에 큰 시계와 안내, 아래에 제출 체크" width="1400" height="787">
           <div class="spot" id="spot"></div>
           <a class="pin" href="#f-tt" data-k="1" style="--x:3.1%;--y:4.1%;--w:33.6%;--h:91.9%" aria-label="1. 시간표"><span>1</span></a><a class="pin" href="#f-timer" data-k="2" style="--x:39.8%;--y:13.4%;--w:57.1%;--h:26.4%" aria-label="2. 큰 시계 · 타이머"><span>2</span></a><a class="pin" href="#f-notice" data-k="3" style="--x:39.8%;--y:42.4%;--w:57.1%;--h:13.1%" aria-label="3. 안내 문구"><span>3</span></a><a class="pin" href="#f-check" data-k="4" style="--x:39.8%;--y:57.4%;--w:57.1%;--h:38.6%" aria-label="4. 제출 체크 · 경고"><span>4</span></a><a class="pin" href="#f-role" data-k="5" style="--x:71.4%;--y:4.6%;--w:25.8%;--h:6.6%" aria-label="5. 1인 1역 · 급식 · 설정"><span>5</span></a>
+          </div>
         </div>
       </div>
+      <a class="zoom-more" id="zoomMore" href="#f-tt">자세히 보기 →</a>
       <div class="map-cards" id="mapCards"><a class="mapc rv pop" href="#f-tt" data-k="1"><b class="num">1</b><span class="t">시간표</span><span class="d">지금 교시가 차오르고, 끌어서 그날만 바꿔요</span></a><a class="mapc rv pop" href="#f-timer" data-k="2"><b class="num">2</b><span class="t">큰 시계 · 타이머</span><span class="d">시계를 누르면 화면 가득 타이머</span></a><a class="mapc rv pop" href="#f-notice" data-k="3"><b class="num">3</b><span class="t">안내 문구</span><span class="d">시간대마다 할 일을 띄워줘요</span></a><a class="mapc rv pop" href="#f-check" data-k="4"><b class="num">4</b><span class="t">제출 체크 · 경고</span><span class="d">안 낸 학생만 또렷하게 남아요</span></a><a class="mapc rv pop" href="#f-role" data-k="5"><b class="num">5</b><span class="t">1인 1역 · 급식 · 설정</span><span class="d">위쪽 버튼을 누르면 팝업</span></a></div>
       <p class="map-more">화면에 안 보이는 기능도 있어요 · <a href="#f-jeon">🔔 전담 5분 전 알림</a> · <a href="#f-color">🎨 화면 색 5가지</a></p>
     </div>
@@ -712,6 +741,30 @@ function light(k){
   el.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')light(null);});
   el.addEventListener('focus',()=>light(el.dataset.k));el.addEventListener('blur',()=>light(null));
 });
+
+// 휴대폰: 누르면 그 부분 확대, 가만히 있으면 차례로 둘러보기
+const mob=matchMedia('(max-width:700px)'),zoomer=document.getElementById('zoomer'),zoomMore=document.getElementById('zoomMore');
+let zk=null,autoT=null,userTouched=false,mapVisible=false;
+function zoomTo(k){
+  zk=k;const p=pinEls.find(x=>x.dataset.k===k);
+  mapCards.forEach(x=>x.classList.toggle('on',x.dataset.k===k));
+  if(!p){zoomer.style.transform='';screen.classList.remove('zoomed');zoomMore.classList.remove('show');return;}
+  const g=v=>parseFloat(p.style.getPropertyValue(v));const x=g('--x'),y=g('--y'),w=g('--w'),h=g('--h');
+  const sc=Math.min(2.6,100/w*.94);
+  let tx=50-(x+w/2)*sc,ty=50-(y+h/2)*sc;
+  tx=Math.min(0,Math.max(100-100*sc,tx));ty=Math.min(0,Math.max(100-100*sc,ty));
+  zoomer.style.transform=`translate(${tx}%,${ty}%) scale(${sc})`;screen.classList.add('zoomed');
+  zoomMore.href=p.getAttribute('href');zoomMore.textContent=mapCards.find(c=>c.dataset.k===k).querySelector('.t').textContent+' 자세히 보기 →';zoomMore.classList.add('show');
+}
+const ORDER=['1','2','3','4','5',null];let ai=0;
+function autoStep(){if(userTouched||!mob.matches||!mapVisible){autoT=null;return;}zoomTo(ORDER[ai]);const wait=ORDER[ai]?3000:2000;ai=(ai+1)%ORDER.length;autoT=setTimeout(autoStep,wait);}
+function autoStart(){if(!autoT&&!userTouched&&mob.matches&&mapVisible)autoT=setTimeout(autoStep,1400);}
+new IntersectionObserver(([e])=>{mapVisible=e.isIntersecting;if(mapVisible)autoStart();else{clearTimeout(autoT);autoT=null;}},{threshold:.5}).observe(document.getElementById('map'));
+[...pinEls,...mapCards].forEach(el=>el.addEventListener('click',e=>{
+  if(!mob.matches)return;e.preventDefault();const wasAuto=!userTouched;userTouched=true;clearTimeout(autoT);autoT=null;
+  zoomTo(!wasAuto&&zk===el.dataset.k?null:el.dataset.k);
+}));
+mob.addEventListener('change',()=>{if(!mob.matches){clearTimeout(autoT);autoT=null;zoomTo(null);}else autoStart();});
 </script>
 </body>
 </html>
