@@ -765,6 +765,32 @@ html[data-style="chalk"] #tourSkip{color:rgba(244,241,230,.6)}
 html[data-style="chalk"] .tour-dots i{background:rgba(244,241,230,.25)}
 html[data-style="chalk"] .tour-dots i.on{background:#ffe08a}
 html[data-style="chalk"] .hint{background:#f4f1e6;color:#2f4a3e;font-family:'Gaegu',sans-serif;font-size:1.1rem}
+
+.tour-fx{position:fixed;inset:0;pointer-events:none}
+.tour-cur{position:fixed;left:0;top:0;width:30px;height:30px;z-index:3;pointer-events:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));will-change:transform}
+.tour-cur svg{width:100%;height:100%;display:block;transform-origin:4px 3px;transition:transform .12s}
+.tour-cur.down svg{transform:scale(.82)}
+.tour-rip{position:fixed;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:3px solid var(--green,#1a9b74);pointer-events:none;animation:tourRip .55s ease-out forwards}
+@keyframes tourRip{from{transform:scale(.2);opacity:1}to{transform:scale(1.5);opacity:0}}
+.tour-tag{position:fixed;transform:translate(-50%,-160%);background:#1f2a26;color:#fff;font:700 .95rem var(--ui);padding:.25rem .6rem;border-radius:.5rem;white-space:nowrap;animation:tourTag 1s ease-out forwards}
+@keyframes tourTag{0%{opacity:0;transform:translate(-50%,-120%)}15%{opacity:1;transform:translate(-50%,-160%)}80%{opacity:1}100%{opacity:0}}
+.tour-fake{position:fixed;display:flex;align-items:center;padding:0 .8rem;background:#fff;color:#1f2a26;border-radius:.7rem;box-shadow:0 0 0 3px var(--green,#1a9b74),0 10px 24px -10px rgba(0,0,0,.5);font-family:var(--display);white-space:nowrap;overflow:hidden;animation:tourIn .2s ease-out}
+.tour-fake i{display:inline-block;width:2px;height:1.1em;background:currentColor;margin-left:2px;animation:tourBlink .9s steps(1) infinite}
+@keyframes tourBlink{50%{opacity:0}}
+@keyframes tourIn{from{opacity:0;transform:scale(.96)}}
+.tour-ghost{position:fixed;padding:.4rem 1rem;border-radius:.8rem;background:#fff;color:#1f2a26;font-family:var(--display);box-shadow:0 14px 30px -10px rgba(0,0,0,.5);transform:translate(-30%,-50%) rotate(-2deg);white-space:nowrap}
+.tour-strike{position:fixed;height:3px;background:#8a958f;border-radius:2px;transform-origin:0 50%;animation:tourStrike .35s ease-out forwards}
+@keyframes tourStrike{from{transform:scaleX(0)}}
+.tour-dim{position:fixed;border-radius:.7rem;background:rgba(255,255,255,.55);animation:tourIn .3s ease-out}
+.tour-swap{position:fixed;border-radius:.8rem;box-shadow:0 0 0 3px var(--green,#1a9b74);animation:tourFlash 1s ease-out forwards}
+@keyframes tourFlash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+html[data-style="apple"] .tour-rip{border-color:#007aff}
+html[data-style="apple"] .tour-fake,html[data-style="apple"] .tour-swap{box-shadow:0 0 0 3px #007aff,0 10px 24px -10px rgba(0,0,0,.4)}
+html[data-style="chalk"] .tour-rip{border-color:#ffe08a}
+html[data-style="chalk"] .tour-fake{background:#2f4a3e;color:#f4f1e6;box-shadow:0 0 0 3px #ffe08a}
+html[data-style="chalk"] .tour-ghost{background:#2f4a3e;color:#f4f1e6;box-shadow:0 0 0 2px #ffe08a,0 14px 30px -10px rgba(0,0,0,.6)}
+html[data-style="chalk"] .tour-swap{box-shadow:0 0 0 3px #ffe08a}
+html[data-style="chalk"] .tour-tag{background:#f4f1e6;color:#2f4a3e}
 </style>
 </head>
 <body>
@@ -806,7 +832,7 @@ html[data-style="chalk"] .hint{background:#f4f1e6;color:#2f4a3e;font-family:'Gae
   </section>
 </div>
 
-<div class="tour" id="tour" hidden><div class="tour-spot" id="tourSpot"></div><div class="tour-bub" id="tourBub" role="dialog" aria-live="polite"><div class="tour-step" id="tourStep"></div><h4 id="tourTitle"></h4><p id="tourText"></p><div class="tour-btns"><span class="tour-dots" id="tourDots"></span><button id="tourSkip">건너뛰기</button><button id="tourPrev">← 이전</button><button id="tourNext">다음 →</button></div></div></div>
+<div class="tour" id="tour" hidden><div class="tour-spot" id="tourSpot"></div><div class="tour-fx" id="tourFx"></div><div class="tour-cur" id="tourCur"><svg viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><div class="tour-bub" id="tourBub" role="dialog" aria-live="polite"><div class="tour-step" id="tourStep"></div><h4 id="tourTitle"></h4><p id="tourText"></p><div class="tour-btns"><span class="tour-dots" id="tourDots"></span><button id="tourSkip">건너뛰기</button><button id="tourPrev">← 이전</button><button id="tourNext">다음 →</button></div></div></div>
 <div class="hint" id="hint"></div>
 <div class="ov" id="ov" hidden><div class="pop" id="pop"></div></div>
 <div class="alert" id="alert" hidden>
@@ -1572,10 +1598,10 @@ function tourPlace(){
 function tourGo(d){
   const n=tourI+d;if(n<0)return;if(n>=TOUR.length){tourEnd();return;}
   const bub=$('tourBub');bub.classList.add('swap');tourI=n;
-  setTimeout(()=>{tourPlace();bub.classList.remove('swap');},tourI===n&&d?160:0);
+  setTimeout(()=>{tourPlace();bub.classList.remove('swap');demoRun(tourI);},tourI===n&&d?160:0);
 }
 function tourStart(){if(!$('ov').hidden||!$('timer').hidden)return;tourI=-1;$('tour').hidden=false;tourGo(1);}
-function tourEnd(){$('tour').hidden=true;tourI=-1;try{localStorage.setItem('classboard-tour','1');}catch(e){}}
+function tourEnd(){demoTok++;dClear();$('tour').hidden=true;tourI=-1;try{localStorage.setItem('classboard-tour','1');}catch(e){}}
 $('tourNext').addEventListener('click',()=>tourGo(1));$('tourPrev').addEventListener('click',()=>tourGo(-1));$('tourSkip').addEventListener('click',tourEnd);
 $('btnHelp').addEventListener('click',tourStart);
 addEventListener('keydown',e=>{if($('tour').hidden)return;e.stopPropagation();
@@ -1603,6 +1629,53 @@ document.addEventListener('pointerover',e=>{
 });
 ['pointerdown','scroll','keydown'].forEach(t=>addEventListener(t,hintHide,true));
 document.addEventListener('pointerleave',hintHide);
+
+// ===== 둘러보기 속 흉내 (실제 데이터는 바꾸지 않아요) =====
+let demoTok=0,curX=-60,curY=-60;
+const dWait=ms=>new Promise(r=>setTimeout(r,ms));
+function dRect(sel){const e=typeof sel==='string'?document.querySelector(sel):sel;return e?e.getBoundingClientRect():null;}
+function dEl(cls,css,html){const d=document.createElement('div');d.className=cls;Object.assign(d.style,css);if(html!=null)d.innerHTML=html;$('tourFx').appendChild(d);return d;}
+async function dMove(x,y,ms=650,tok){const c=$('tourCur');c.animate([{transform:`translate(${curX}px,${curY}px)`},{transform:`translate(${x}px,${y}px)`}],{duration:ms,easing:'cubic-bezier(.35,.1,.2,1)',fill:'forwards'});curX=x;curY=y;await dWait(ms);return tok===demoTok;}
+async function dClick(n=1,label){const c=$('tourCur');for(let k=0;k<n;k++){c.classList.add('down');const r=dEl('tour-rip',{left:curX+4+'px',top:curY+3+'px'});await dWait(110);c.classList.remove('down');setTimeout(()=>r.remove(),600);await dWait(n>1?120:60);}
+  if(label){const t=dEl('tour-tag',{left:curX+4+'px',top:curY+'px'},label);setTimeout(()=>t.remove(),1000);}}
+async function dType(box,text,tok,font){const f=dEl('tour-fake',{left:box.left+'px',top:box.top+'px',width:box.width+'px',height:box.height+'px',fontSize:font||'1.6rem'},'<span></span><i></i>');const sp=f.querySelector('span');
+  for(const ch of text){if(tok!==demoTok)return false;sp.textContent+=ch;await dWait(110);}await dWait(900);return tok===demoTok;}
+function dClear(){$('tourFx').innerHTML='';}
+const DEMOS=[
+ async tok=>{ // 시간표: 끌어서 바꾸고, 두 번 눌러 이름 바꾸기
+   const rows=[...document.querySelectorAll('#tt .row')].filter(r=>!r.classList.contains('past')&&r.querySelector('.nm')&&/교시/.test((r.querySelector('.lb')||{}).textContent||''));
+   const cand=rows.length>=3?rows:[...document.querySelectorAll('#tt .row')].filter(r=>/교시/.test((r.querySelector('.lb')||{}).textContent||''));if(cand.length<3)return;
+   const A=cand[0],B=cand[2],ra=A.getBoundingClientRect(),rb=B.getBoundingClientRect(),nmA=A.querySelector('.nm');
+   if(!await dMove(ra.left+ra.width*.45,ra.top+ra.height/2,700,tok))return;
+   $('tourCur').classList.add('down');const g=dEl('tour-ghost',{left:curX+'px',top:curY+'px',fontSize:getComputedStyle(nmA).fontSize},nmA?nmA.textContent:'');
+   const tag=dEl('tour-tag',{left:curX+4+'px',top:curY+'px'},'끌어서');setTimeout(()=>tag.remove(),1000);
+   g.animate([{left:curX+'px',top:curY+'px'},{left:rb.left+rb.width*.45+'px',top:rb.top+rb.height/2+'px'}],{duration:900,easing:'cubic-bezier(.35,.1,.2,1)',fill:'forwards'});
+   if(!await dMove(rb.left+rb.width*.45,rb.top+rb.height/2,900,tok))return;
+   $('tourCur').classList.remove('down');g.remove();
+   [ra,rb].forEach(r=>{const s=dEl('tour-swap',{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});setTimeout(()=>s.remove(),1000);});
+   const t2=dEl('tour-tag',{left:curX+4+'px',top:curY+'px'},'자리 바뀜!');setTimeout(()=>t2.remove(),1000);
+   await dWait(1300);if(tok!==demoTok)return;
+   const nmB=B.querySelector('.nm');const nb=nmB.getBoundingClientRect();
+   if(!await dMove(nb.left+30,nb.top+nb.height/2,500,tok))return;
+   await dClick(2,'두 번 딸깍');await dWait(250);
+   if(!await dType({left:nb.left-8,top:rb.top+rb.height*.18,width:Math.min(rb.right-nb.left-24,340),height:rb.height*.64},'학예회 연습',tok,getComputedStyle(nmB).fontSize))return;
+   dClear();},
+ async tok=>{const r=dRect('#ttNext');if(!r)return;if(!await dMove(r.left+r.width/2,r.top+r.height/2,600,tok))return;await dClick(1,'내일 보기');await dWait(900);},
+ async tok=>{const r=dRect('#hm');if(!r)return;if(!await dMove(r.left+r.width*.55,r.top+r.height*.55,700,tok))return;await dClick(1,'딸깍 → 타이머');await dWait(1000);},
+ async tok=>{const r=dRect('#nv');if(!r)return;if(!await dMove(r.left+40,r.top+r.height/2,650,tok))return;await dClick(2,'두 번 딸깍');await dWait(200);
+   if(!await dType({left:r.left-6,top:r.top,width:r.width+12,height:Math.max(r.height,48)},'오늘은 줄넘기 대회!',tok,getComputedStyle($('nv')).fontSize))return;dClear();},
+ async tok=>{const btns=[...document.querySelectorAll('#grid .nm-btn:not(.done)')];const b=btns[Math.min(2,btns.length-1)];if(!b)return;const r=b.getBoundingClientRect(),l=(b.querySelector('.lbl')||b).getBoundingClientRect();
+   if(!await dMove(r.left+r.width*.6,r.top+r.height/2,650,tok))return;await dClick(1,'딸깍 → 냈어요');
+   dEl('tour-dim',{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});dEl('tour-strike',{left:l.left-2+'px',top:l.top+l.height/2+'px',width:l.width+4+'px'});
+   await dWait(1200);if(tok!==demoTok)return;
+   const tab=document.querySelector('.chk-tabs .tab.on')||document.querySelector('.chk-tabs .tab');if(tab){const tr=tab.getBoundingClientRect();
+     if(!await dMove(tr.left+tr.width/2,tr.top+tr.height/2,600,tok))return;await dClick(2,'두 번 딸깍');await dWait(150);
+     if(!await dType({left:tr.left,top:tr.top,width:Math.max(tr.width,150),height:tr.height},'일기 제출',tok,getComputedStyle(tab).fontSize))return;}
+   dClear();},
+ async tok=>{const r=dRect('#btnEdit');if(!r)return;if(!await dMove(r.left+r.width/2,r.top+r.height/2,650,tok))return;await dClick(1,'딸깍 → 편집');await dWait(1000);}];
+async function demoRun(i){const tok=++demoTok;dClear();$('tourCur').classList.remove('down');
+  await dWait(500);
+  while(tok===demoTok&&!$('tour').hidden){try{await DEMOS[i](tok);}catch(e){break;}if(tok!==demoTok)break;dClear();await dWait(900);}}
 </script>
 </body>
 </html>

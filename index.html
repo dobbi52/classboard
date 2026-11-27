@@ -319,6 +319,69 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
 @media (max-width:900px){.gest{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.gest{grid-template-columns:1fr}}
 
+
+/* 손동작 카드 속 작은 움직임 */
+.gd{position:relative;height:96px;border-radius:14px;background:var(--bg);margin-bottom:14px;overflow:hidden}
+.gd-cur{position:absolute;width:24px;height:24px;left:0;top:0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));z-index:3}
+.gd-chip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);color:var(--ink);font-family:var(--display);font-size:20px;padding:6px 16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.08);white-space:nowrap}
+.gd-chip s{text-decoration:none;position:relative}
+.gd-chip s::after{content:"";position:absolute;left:-3px;right:-3px;top:52%;height:2.5px;background:var(--mute);transform:scaleX(0);transform-origin:0 50%}
+.gd-rip{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:3px solid var(--green);opacity:0;z-index:2}
+/* 1: 한 번 누르기 */
+.gd1 .gd-cur{animation:none;left:55%;top:56%;transform:translate(120px,50px);animation:g1m 3.2s infinite cubic-bezier(.35,.1,.2,1)}
+@keyframes g1m{0%{transform:translate(120px,50px)}30%,85%{transform:translate(0,0)}100%{transform:translate(120px,50px)}}
+.gd1 .r1{left:calc(55% + 4px);top:calc(56% + 3px);animation:gr 3.2s infinite}
+@keyframes gr{0%,32%{opacity:0;transform:scale(.2)}34%{opacity:1;transform:scale(.3)}48%{opacity:0;transform:scale(1.4)}100%{opacity:0}}
+.gd1 .gd-chip{animation:g1chip 3.2s infinite}
+@keyframes g1chip{0%,33%{color:var(--ink)}38%,90%{color:var(--mute);opacity:.6}100%{color:var(--ink)}}
+.gd1 .gd-chip s::after{animation:g1s 3.2s infinite}
+@keyframes g1s{0%,34%{transform:scaleX(0)}44%,90%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+/* 2: 두 번 누르기 */
+.gd2 .gd-cur{left:53%;top:56%;animation:g1m 4.2s infinite cubic-bezier(.35,.1,.2,1)}
+.gd2 .r1{left:calc(53% + 4px);top:calc(56% + 3px);animation:gr2a 4.2s infinite}.gd2 .r2{left:calc(53% + 4px);top:calc(56% + 3px);animation:gr2b 4.2s infinite}
+@keyframes gr2a{0%,25%{opacity:0;transform:scale(.2)}27%{opacity:1;transform:scale(.3)}37%{opacity:0;transform:scale(1.3)}100%{opacity:0}}
+@keyframes gr2b{0%,31%{opacity:0;transform:scale(.2)}33%{opacity:1;transform:scale(.3)}43%{opacity:0;transform:scale(1.3)}100%{opacity:0}}
+.gd2 .gd-chip{animation:g2chip 4.2s infinite}
+@keyframes g2chip{0%,40%{opacity:1}42%,92%{opacity:0}100%{opacity:1}}
+.gd-input{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:38px;background:var(--card);border-radius:10px;box-shadow:0 0 0 2.5px var(--green);display:flex;align-items:center;padding:0 12px;font-family:var(--display);font-size:19px;color:var(--ink);opacity:0;animation:g2in 4.2s infinite}
+@keyframes g2in{0%,40%{opacity:0}42%,92%{opacity:1}100%{opacity:0}}
+.gd-input span{display:inline-block;overflow:hidden;white-space:nowrap;width:0;animation:g2type 4.2s infinite steps(6)}
+@keyframes g2type{0%,46%{width:0}70%,100%{width:6.2em}}
+.gd-input i{width:2px;height:20px;background:var(--ink);margin-left:2px;animation:g2blink .8s steps(1) infinite}
+@keyframes g2blink{50%{opacity:0}}
+/* 3: 끌어서 놓기 */
+.gd-slot{position:absolute;top:50%;transform:translateY(-50%);width:82px;height:38px;border-radius:10px;border:2px dashed var(--line);color:transparent}
+.gd-slot.a{left:calc(50% - 96px)}.gd-slot.b{left:calc(50% + 14px)}
+.gd3 .gd-chip{transform:translateY(-50%);width:82px;text-align:center;padding:6px 0}
+.gd3 .ca{left:calc(50% - 96px);animation:g3a 3.6s infinite cubic-bezier(.35,.1,.2,1)}
+.gd3 .cb{left:calc(50% + 14px);animation:g3b 3.6s infinite cubic-bezier(.35,.1,.2,1)}
+@keyframes g3a{0%,22%{transform:translateY(-50%);box-shadow:0 2px 6px rgba(0,0,0,.08)}28%{transform:translateY(-58%) rotate(-3deg);box-shadow:0 12px 20px -8px rgba(0,0,0,.35)}55%{transform:translate(110px,-58%) rotate(-3deg)}62%,88%{transform:translate(110px,-50%);box-shadow:0 2px 6px rgba(0,0,0,.08)}100%{transform:translateY(-50%)}}
+@keyframes g3b{0%,52%{transform:translateY(-50%)}64%,88%{transform:translate(-110px,-50%)}100%{transform:translateY(-50%)}}
+.gd3 .gd-cur{left:calc(50% - 50px);top:56%;animation:g3c 3.6s infinite cubic-bezier(.35,.1,.2,1)}
+@keyframes g3c{0%{transform:translate(150px,40px)}20%{transform:translate(0,0)}55%{transform:translate(110px,-4px)}62%,85%{transform:translate(110px,0)}100%{transform:translate(150px,40px)}}
+/* 4: 오른쪽 클릭 */
+.gd4 .gd-chip{left:42%;display:flex;align-items:center;gap:6px}
+.gd4 .gd-chip b{width:9px;height:9px;border-radius:50%;border:2px solid #f0a07a;display:inline-block}
+.gd4 .d1{animation:g4d 3.4s infinite}
+@keyframes g4d{0%,38%{background:#e0612f;border-color:#e0612f}46%,90%{background:transparent;border-color:#f0a07a}100%{background:#e0612f;border-color:#e0612f}}
+.gd-mouse{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:30px;height:44px;border-radius:15px 15px 13px 13px;border:2px solid var(--sub);overflow:hidden;display:flex}
+.gd-mouse i{flex:1;height:18px;border-bottom:2px solid var(--sub)}
+.gd-mouse i.l{border-right:2px solid var(--sub)}
+.gd-mouse i.r{animation:g4m 3.4s infinite}
+@keyframes g4m{0%,34%{background:transparent}36%,46%{background:var(--green)}48%,100%{background:transparent}}
+.gd4 .gd-cur{left:40%;top:58%;animation:g1m 3.4s infinite cubic-bezier(.35,.1,.2,1)}
+/* 5: 키보드 */
+.gd5{display:flex;align-items:center;justify-content:center;gap:8px}
+.gd5 kbd{font:600 15px var(--body);min-width:42px;height:40px;padding:0 10px;display:grid;place-items:center;background:var(--card);color:var(--ink);border-radius:9px;box-shadow:0 4px 0 var(--line),0 4px 8px -4px rgba(0,0,0,.2);animation:g5 4s infinite}
+.gd5 .k2{animation-delay:1s}.gd5 .k3{animation-delay:2s}.gd5 .k4{animation-delay:2.5s}
+@keyframes g5{0%,8%{transform:none;box-shadow:0 4px 0 var(--line),0 4px 8px -4px rgba(0,0,0,.2);background:var(--card)}10%,16%{transform:translateY(3px);box-shadow:0 1px 0 var(--line);background:var(--green-soft)}20%,100%{transform:none;box-shadow:0 4px 0 var(--line),0 4px 8px -4px rgba(0,0,0,.2);background:var(--card)}}
+/* 6: ? */
+.gd-q{position:absolute;left:30%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);display:grid;place-items:center;font:700 20px var(--body);color:var(--ink)}
+.gd6 .r1{left:calc(32% + 4px);top:calc(58% + 3px);animation:gr 3.4s infinite}
+.gd6 .gd-cur{left:32%;top:58%;animation:g1m 3.4s infinite cubic-bezier(.35,.1,.2,1)}
+.gd-bub{position:absolute;left:46%;top:50%;transform:translateY(-50%) scale(.6);opacity:0;background:var(--ink);color:var(--bg);font-size:13.5px;font-weight:700;padding:7px 12px;border-radius:10px;white-space:nowrap;animation:g6b 3.4s infinite}
+@keyframes g6b{0%,38%{opacity:0;transform:translateY(-50%) scale(.6)}46%,86%{opacity:1;transform:translateY(-50%) scale(1)}100%{opacity:0}}
+
 /* 크게 보기: 사진 자리에서 커지기 */
 .lb{transition:opacity .3s}
 .lb img{transform:none;transition:none;will-change:transform}
@@ -402,12 +465,12 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
         <p>버튼이 안 보여도 되는 것들이 있어요. 처음 켜면 프로그램이 직접 짧게 둘러보기로 알려줘요.</p>
       </div>
       <div class="gest">
-        <div class="g-card rv pop"><div class="g-ico">👆</div><h3>한 번 누르기</h3><ul><li><b>큰 시계</b> → 타이머</li><li><b>학생 이름</b> → 제출 체크</li><li><b>경고 탭의 이름</b> → 경고 하나</li></ul></div>
-        <div class="g-card rv pop"><div class="g-ico">✌️</div><h3>두 번 누르기</h3><ul><li><b>시간표 과목</b> → 그날만 이름 바꾸기</li><li><b>아침 안내 글</b> → 그 자리에서 고치기</li><li><b>체크 탭 이름</b> → 이름 바꾸기</li></ul></div>
-        <div class="g-card rv pop"><div class="g-ico">✋</div><h3>끌어서 놓기</h3><ul><li><b>시간표 과목</b> → 두 과목 자리 바꾸기</li><li><b>편집의 점심 줄</b> → 점심 위치 옮기기</li></ul></div>
-        <div class="g-card rv pop"><div class="g-ico">🖱️</div><h3>오른쪽 클릭</h3><ul><li><b>경고 탭의 이름</b> → 경고 하나 빼기</li></ul></div>
-        <div class="g-card rv pop"><div class="g-ico">⌨️</div><h3>키보드</h3><ul><li><b>F11</b> → 전체화면 켜고 끄기</li><li><b>Esc</b> → 고치던 것 취소, 창 닫기</li><li><b>↑ ↓</b> → 편집에서 시각 5분씩</li></ul></div>
-        <div class="g-card rv pop"><div class="g-ico">❓</div><h3>잊어버렸다면</h3><ul><li>오른쪽 위 <b>?</b> → 둘러보기 다시 보기</li><li>마우스를 잠깐 올려두면 <b>작은 힌트</b>가 떠요</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd1"><span class="gd-chip"><s>김하늘</s></span><i class="gd-rip r1"></i><svg class="gd-cur" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>한 번 누르기</h3><ul><li><b>큰 시계</b> → 타이머</li><li><b>학생 이름</b> → 제출 체크</li><li><b>경고 탭의 이름</b> → 경고 하나</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd2"><span class="gd-chip">수학</span><span class="gd-input"><span>학예회 연습</span><i></i></span><i class="gd-rip r1"></i><i class="gd-rip r2"></i><svg class="gd-cur" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>두 번 누르기</h3><ul><li><b>시간표 과목</b> → 그날만 이름 바꾸기</li><li><b>아침 안내 글</b> → 그 자리에서 고치기</li><li><b>체크 탭 이름</b> → 이름 바꾸기</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd3"><span class="gd-slot a">국어</span><span class="gd-slot b">수학</span><span class="gd-chip ca">국어</span><span class="gd-chip cb">수학</span><svg class="gd-cur" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>끌어서 놓기</h3><ul><li><b>시간표 과목</b> → 두 과목 자리 바꾸기</li><li><b>편집의 점심 줄</b> → 점심 위치 옮기기</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd4"><span class="gd-chip">강건우 <b class="d1"></b><b class="d2"></b></span><span class="gd-mouse"><i class="l"></i><i class="r"></i></span><svg class="gd-cur" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>오른쪽 클릭</h3><ul><li><b>경고 탭의 이름</b> → 경고 하나 빼기</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd5"><kbd class="k1">F11</kbd><kbd class="k2">Esc</kbd><kbd class="k3">↑</kbd><kbd class="k4">↓</kbd></div><h3>키보드</h3><ul><li><b>F11</b> → 전체화면 켜고 끄기</li><li><b>Esc</b> → 고치던 것 취소, 창 닫기</li><li><b>↑ ↓</b> → 편집에서 시각 5분씩</li></ul></div>
+        <div class="g-card rv pop"><div class="gd gd6"><span class="gd-q">?</span><span class="gd-bub">둘러보기 시작!</span><i class="gd-rip r1"></i><svg class="gd-cur" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.3 1.4 3.6 6.6-2.6 1.4-3.6-6.6L4.9 18.6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>잊어버렸다면</h3><ul><li>오른쪽 위 <b>?</b> → 둘러보기 다시 보기</li><li>마우스를 잠깐 올려두면 <b>작은 힌트</b>가 떠요</li></ul></div>
       </div>
       <figure class="shot rv g-shot"><img src="img/chalk/23.jpg" alt="처음 켤 때 나오는 둘러보기. 화면이 어두워지고 한 부분만 밝게 비추며 말풍선으로 설명해요" loading="lazy" decoding="async" width="1400" height="787"><figcaption>처음 켜면 나오는 둘러보기 · 6단계</figcaption></figure>
     </div>
