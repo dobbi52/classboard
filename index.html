@@ -307,6 +307,18 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
 .way-ok.soft{background:var(--card);color:var(--sub)}
 @media (max-width:900px){.ways{grid-template-columns:1fr}.way{padding:22px}}
 
+
+.gest{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.g-card{background:var(--card);border-radius:var(--r);padding:22px 22px 18px;min-width:0}
+.g-ico{font-size:28px;line-height:1;margin-bottom:10px}
+.g-card h3{font-size:22px;margin-bottom:8px}
+.g-card ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.g-card li{font-size:15px;color:var(--sub);line-height:1.55;word-break:keep-all}
+.g-card li b{color:var(--ink)}
+.g-shot{max-width:880px;margin:36px auto 0}
+@media (max-width:900px){.gest{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.gest{grid-template-columns:1fr}}
+
 /* 크게 보기: 사진 자리에서 커지기 */
 .lb{transition:opacity .3s}
 .lb img{transform:none;transition:none;will-change:transform}
@@ -333,6 +345,7 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
   <div class="wrap">
     <a class="logo" href="#top"><i>칠</i><span>우리 반 칠판</span></a>
     <nav class="chips" id="chips" aria-label="바로가기">
+      <a href="#gestures">손동작</a>
       <a href="#f-tt">시간표</a>
       <a href="#f-notice">안내 문구</a>
       <a href="#f-timer">타이머</a>
@@ -371,13 +384,32 @@ body,.bar,.step,.point,.edit-card,.shot,.faq details,.end,.tv,.cmd{transition-pr
           <div class="zoomer" id="zoomer">
           <img src="img/chalk/01.jpg" alt="수업 중인 우리 반 칠판 화면. 왼쪽에 오늘의 시간표, 오른쪽에 큰 시계와 안내, 아래에 제출 체크" width="1400" height="787">
           <div class="spot" id="spot"></div>
-          <a class="pin" href="#f-tt" data-k="1" style="--x:3.1%;--y:4.1%;--w:33.6%;--h:91.9%" aria-label="1. 시간표"><span>1</span></a><a class="pin" href="#f-timer" data-k="2" style="--x:39.8%;--y:13.4%;--w:57.1%;--h:26.4%" aria-label="2. 큰 시계 · 타이머"><span>2</span></a><a class="pin" href="#f-notice" data-k="3" style="--x:39.8%;--y:42.4%;--w:57.1%;--h:13.1%" aria-label="3. 안내 문구"><span>3</span></a><a class="pin" href="#f-check" data-k="4" style="--x:39.8%;--y:57.4%;--w:57.1%;--h:38.6%" aria-label="4. 제출 체크 · 경고"><span>4</span></a><a class="pin" href="#f-role" data-k="5" style="--x:71.4%;--y:4.6%;--w:25.8%;--h:6.6%" aria-label="5. 1인 1역 · 급식 · 설정"><span>5</span></a>
+          <a class="pin" href="#f-tt" data-k="1" style="--x:3.1%;--y:4.1%;--w:33.6%;--h:91.9%" aria-label="1. 시간표"><span>1</span></a><a class="pin" href="#f-timer" data-k="2" style="--x:39.8%;--y:13.4%;--w:57.1%;--h:26.4%" aria-label="2. 큰 시계 · 타이머"><span>2</span></a><a class="pin" href="#f-notice" data-k="3" style="--x:39.8%;--y:42.4%;--w:57.1%;--h:13.1%" aria-label="3. 안내 문구"><span>3</span></a><a class="pin" href="#f-check" data-k="4" style="--x:39.8%;--y:57.4%;--w:57.1%;--h:38.6%" aria-label="4. 제출 체크 · 경고"><span>4</span></a><a class="pin" href="#f-role" data-k="5" style="--x:67.5%;--y:4.6%;--w:29.4%;--h:6.6%" aria-label="5. 1인 1역 · 급식 · 설정"><span>5</span></a>
           </div>
         </div>
       </div>
       <a class="zoom-more" id="zoomMore" href="#f-tt">자세히 보기 →</a>
-      <div class="map-cards" id="mapCards"><a class="mapc rv pop" href="#f-tt" data-k="1"><b class="num">1</b><span class="t">시간표</span><span class="d">지금 교시가 차오르고, 끌어서 그날만 바꿔요</span></a><a class="mapc rv pop" href="#f-timer" data-k="2"><b class="num">2</b><span class="t">큰 시계 · 타이머</span><span class="d">시계를 누르면 화면 가득 타이머</span></a><a class="mapc rv pop" href="#f-notice" data-k="3"><b class="num">3</b><span class="t">안내 문구</span><span class="d">시간대마다 할 일을 띄워줘요</span></a><a class="mapc rv pop" href="#f-check" data-k="4"><b class="num">4</b><span class="t">제출 체크 · 경고</span><span class="d">안 낸 학생만 또렷하게 남아요</span></a><a class="mapc rv pop" href="#f-role" data-k="5"><b class="num">5</b><span class="t">1인 1역 · 급식 · 설정</span><span class="d">위쪽 버튼을 누르면 팝업</span></a></div>
+      <div class="map-cards" id="mapCards"><a class="mapc rv pop" href="#f-tt" data-k="1"><b class="num">1</b><span class="t">시간표</span><span class="d">지금 교시가 차오르고, 끌어서 그날만 바꿔요</span></a><a class="mapc rv pop" href="#f-timer" data-k="2"><b class="num">2</b><span class="t">큰 시계 · 타이머</span><span class="d">시계를 누르면 화면 가득 타이머</span></a><a class="mapc rv pop" href="#f-notice" data-k="3"><b class="num">3</b><span class="t">안내 문구</span><span class="d">시간대마다 할 일을 띄워줘요</span></a><a class="mapc rv pop" href="#f-check" data-k="4"><b class="num">4</b><span class="t">제출 체크 · 경고</span><span class="d">안 낸 학생만 또렷하게 남아요</span></a><a class="mapc rv pop" href="#f-role" data-k="5"><b class="num">5</b><span class="t">1인 1역 · 급식 · 설정</span><span class="d">위쪽 버튼을 누르면 팝업, ?는 둘러보기</span></a></div>
       <p class="map-more">화면에 안 보이는 기능도 있어요 · <a href="#f-jeon">🔔 전담 5분 전 알림</a> · <a href="#f-color">🎨 화면 스타일 3가지 · 색 5가지</a></p>
+    </div>
+  </section>
+
+  <section class="blk" id="gestures">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">알아두면 좋은 손동작</span>
+        <h2>누르고, 두 번 누르고, 끌어요</h2>
+        <p>버튼이 안 보여도 되는 것들이 있어요. 처음 켜면 프로그램이 직접 짧게 둘러보기로 알려줘요.</p>
+      </div>
+      <div class="gest">
+        <div class="g-card rv pop"><div class="g-ico">👆</div><h3>한 번 누르기</h3><ul><li><b>큰 시계</b> → 타이머</li><li><b>학생 이름</b> → 제출 체크</li><li><b>경고 탭의 이름</b> → 경고 하나</li></ul></div>
+        <div class="g-card rv pop"><div class="g-ico">✌️</div><h3>두 번 누르기</h3><ul><li><b>시간표 과목</b> → 그날만 이름 바꾸기</li><li><b>아침 안내 글</b> → 그 자리에서 고치기</li><li><b>체크 탭 이름</b> → 이름 바꾸기</li></ul></div>
+        <div class="g-card rv pop"><div class="g-ico">✋</div><h3>끌어서 놓기</h3><ul><li><b>시간표 과목</b> → 두 과목 자리 바꾸기</li><li><b>편집의 점심 줄</b> → 점심 위치 옮기기</li></ul></div>
+        <div class="g-card rv pop"><div class="g-ico">🖱️</div><h3>오른쪽 클릭</h3><ul><li><b>경고 탭의 이름</b> → 경고 하나 빼기</li></ul></div>
+        <div class="g-card rv pop"><div class="g-ico">⌨️</div><h3>키보드</h3><ul><li><b>F11</b> → 전체화면 켜고 끄기</li><li><b>Esc</b> → 고치던 것 취소, 창 닫기</li><li><b>↑ ↓</b> → 편집에서 시각 5분씩</li></ul></div>
+        <div class="g-card rv pop"><div class="g-ico">❓</div><h3>잊어버렸다면</h3><ul><li>오른쪽 위 <b>?</b> → 둘러보기 다시 보기</li><li>마우스를 잠깐 올려두면 <b>작은 힌트</b>가 떠요</li></ul></div>
+      </div>
+      <figure class="shot rv g-shot"><img src="img/chalk/23.jpg" alt="처음 켤 때 나오는 둘러보기. 화면이 어두워지고 한 부분만 밝게 비추며 말풍선으로 설명해요" loading="lazy" decoding="async" width="1400" height="787"><figcaption>처음 켜면 나오는 둘러보기 · 6단계</figcaption></figure>
     </div>
   </section>
 
@@ -681,7 +713,7 @@ document.querySelectorAll('.feat').forEach(f=>{
   f.querySelectorAll('.shot').forEach((s,i)=>s.style.setProperty('--d',(i*.12)+'s'));
 });
 // 같은 줄에 있는 것은 차례로
-[['.mapc',.07],['.way',.12],['.edit-card',.08]].forEach(([q,g])=>document.querySelectorAll(q).forEach((el,i)=>el.style.setProperty('--d',((q==='.mapc'?i:i%3)*g)+'s')));
+[['.mapc',.07],['.way',.12],['.edit-card',.08],['.g-card',.07]].forEach(([q,g])=>document.querySelectorAll(q).forEach((el,i)=>el.style.setProperty('--d',((q==='.mapc'?i:i%3)*g)+'s')));
 
 const rvObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.classList.add('in');rvObs.unobserve(el);const d=parseFloat(getComputedStyle(el).getPropertyValue('--d'))||0;setTimeout(()=>el.classList.add('done'),900+d*1000);}});},{rootMargin:'0px 0px -12% 0px',threshold:.05});
 document.querySelectorAll('.rv,.feat').forEach(el=>rvObs.observe(el));
