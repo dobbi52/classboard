@@ -984,7 +984,7 @@ function placeHL(s,now){
     const key=s.label;
     if(hlKey!==null&&key!==hlKey){hl.classList.add('moving');clearTimeout(hlT);hlT=setTimeout(()=>hl.classList.remove('moving'),800);}
     hlKey=key;
-    hl.style.top=r.offsetTop+'px';hl.style.height=r.offsetHeight+'px';hl.style.opacity=1;
+    {const op=hl.offsetParent||hl.parentNode;hl.style.top=(r.getBoundingClientRect().top-op.getBoundingClientRect().top-op.clientTop+op.scrollTop)+'px';}hl.style.height=r.offsetHeight+'px';hl.style.opacity=1;
     const p=(s.type==='class'||s.type==='lunch')?Math.max(0,Math.min(100,(now-s.start)/(s.end-s.start)*100)):0;
     hl.style.setProperty('--p',p.toFixed(2)+'%');
   }else hl.style.opacity=0;
